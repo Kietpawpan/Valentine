@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>14 Feb 2026 Gift</title>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .watch-case {
+        width: 350px;
+        height: 350px;
+        /* Slightly darker metal case to contrast with the bright bezel */
+        background: radial-gradient(circle at center, #d0d0d0, #a0a0a0);
+        border-radius: 50%;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        border: 1px solid #888;
+    }
+
+    /* --- UPDATED BEZEL --- */
+    .bezel {
+        width: 301px;
+        height: 301px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+
+        /* --- CSS Realistic Polished Steel Simulation --- */
+        background-color:#000000; 
+
+        background-image: 
+            radial-gradient(ellipse at 30% 25%, rgba(255,255,255,1) 0%, transparent 35%),
+            linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 20%),
+            linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 40%),
+            conic-gradient(from 110deg, #ffffff, white, #ffffff, #ffffff);
+
+        box-shadow: 
+            inset 0 0 6px rgba(0,0,0,0.7),
+            inset 0 0 2px 1px rgba(255,255,255,0.8),
+            0 4px 8px rgba(0,0,0,0.3);
+    }
+
+    .dial {
+        width: 290px;
+        height: 290px;
+        border-radius: 50%;
+        position: relative;
+        /* Deepened inner shadow for better contrast with new bezel */
+        box-shadow: inset 0 2px 20px rgba(0,0,0,0.7);
+        background-color: #dc143c;/*#006039;Rolex Green*/
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: 3;
+    }
+
+    /* --- Applied Hour Markers --- */
+    .marker {
+        position: absolute;
+        width: 6px;
+        height: 25px;
+        background-color: white;
+        left: 50%;
+        top: 50%;
+        transform-origin: center;
+        border: 1px solid #ccc;
+        box-shadow: 0 0 2px rgba(0,0,0,0.5);
+        z-index: 5;
+    }
+    
+    .marker.double {
+        width: 14px;
+        border: none;
+        background: transparent;
+        display: flex;
+        justify-content: space-between;
+    }
+    .marker.double div {
+        width: 5px;
+        height: 100%;
+        background-color: white;
+        border: 1px solid #ccc;
+    }
+
+    /* --- Minute Ticks --- */
+    .minute-tick {
+        position: absolute;
+        width: 2px;
+        height: 6px; 
+        background-color: rgba(255, 255, 255, 0.9);
+        left: 50%;
+        top: 50%;
+        transform-origin: center;
+        z-index: 4;
+    }
+
+    /* --- Small Squares --- */
+    .minute-square {
+        position: absolute;
+        width: 6px; 
+        height: 6px; 
+        background-color: white;
+        left: 50%;
+        top: 50%;
+        transform-origin: center;
+        z-index: 4;
+        border: 1px solid #ccc; 
+        box-shadow: 0 0 2px rgba(0,0,0,0.5);
+    }
+    
+    /* --- The Tiny Crown at 6 O'clock --- */
+    .tiny-crown {
+        position: absolute;
+        width: 10px; 
+        height: 10px;
+        left: 50%;
+        top: 50%;
+        transform-origin: center;
+        z-index: 4;
+    }
+    /* NEW: Add drop shadow to gold crowns for pop */
+    .tiny-crown svg, .crown-pos svg {
+        width: 100%;
+        height: 100%;
+        /* fill: white;  <-- REMOVED, handled by gradient in SVG */
+        filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.5));
+    }
+
+
+    /* --- Main Crown Position (Top) --- */
+    .crown-pos {
+        position: absolute;
+        top: 18px; 
+        left: 50%;
+        transform: translateX(-50%); 
+        width: 32px;
+        height: 32px;
+        z-index: 6;
+    }
+
+    .text-brand {
+        font-family: 'Garamond', 'Baskerville', 'Times New Roman', serif;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        margin-bottom: 0px;
+        transform: scaleY(0.85);
+        display: inline-block;
+    }
+
+    .text-model {
+        font-family: 'Arial', sans-serif;
+        font-size: 9px;
+        font-weight: bold;
+        letter-spacing: 0.2px;
+        opacity: 0.9;
+    }
+
+    .text-top {
+        position: absolute;
+        top: 60px;
+        width: 100%;
+        text-align: center;
+        color: white;
+        line-height: 1.2;
+    }
+
+    .text-bottom {
+        position: absolute;
+        bottom: 60px;
+        width: 100%;
+        text-align: center;
+        color: white;
+        line-height: 1.2;
+    }
+    
+    .text-cert {
+        font-family: 'Arial Narrow', 'Roboto Condensed', sans-serif;
+        font-size: 8.5px;
+        letter-spacing: 0.5px;
+        display: inline-block;
+        transform: scaleX(0.75);
+        transform-origin: center;
+    }
+    
+    /* --- SWISS MADE text --- */
+    .swiss-text {
+        position: absolute;
+        color: white;
+        font-size: 5px;
+        font-weight: bold;
+        text-align: center;
+        width: 20px;
+        z-index: 5;
+    }
+
+    /* --- Hands --- */
+    .hand {
+        position: absolute;
+        bottom: 50%;
+        left: 50%;
+        transform-origin: bottom center;
+        z-index: 10;
+        display: flex;
+        justify-content: center;
+    }
+
+    .hand-tail {
+        position: absolute;
+        bottom: -22px;
+        left: 0;
+        width: 100%;
+        height: 22px;
+        background: linear-gradient(to right, #d0d0d0 50%, #000000 50%);
+        border-radius: 0 0 1px 1px;
+        z-index: 1;
+    }
+
+    .hour-hand {
+        width: 9px;
+        height: 90px;
+        background: linear-gradient(to right, #d0d0d0 50%, #707070 50%);
+        margin-left: -3.5px;
+        z-index: 11;
+        border-radius: 1px 1px 0 0;
+    }
+    .hour-hand::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 50%;
+        height: 45px; 
+        background-color: #000000;
+        z-index: 2;
+    }
+    .hour-hand::after {
+        content: '';
+        position: absolute;
+        bottom: 45px;
+        width: 3px;
+        height: 30px;
+        background-color: #ffffff;
+        border-radius: 1px;
+        z-index: 3;
+        box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+    }
+
+    .minute-hand {
+        width: 6px;
+        height: 132px; 
+        background: linear-gradient(to right, #ffffff 50%, #707070 50%);
+        margin-left: -2.5px;
+        z-index: 12;
+        border-radius: 1px 1px 0 0;
+    }
+    .minute-hand::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 50%;
+        height: 40px; 
+        background-color: #000000;
+        z-index: 2;
+    }
+    .minute-hand::after {
+        content: '';
+        position: absolute;
+        bottom: 40px;
+        width: 3px;
+        height: 80px; 
+        background-color: #ffffff;
+        border-radius: 0.5px;
+        z-index: 3;
+        box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+    }
+
+    .second-hand {
+        width:3px;
+        height: 132px; 
+        background: linear-gradient(to right, #ffffff 50%, #333333 50%);
+        margin-left: -1px;
+        z-index: 13;
+    }
+    .second-hand::after {
+        content: '';
+        position: absolute;
+        bottom: -30px;
+        left: 0;
+        width: 3.5px;
+        height: 50px;
+        background: linear-gradient(to right, #ffffff 50%, #333333 50%);
+    }
+
+    .pivot {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 10px;
+        height: 10px;
+        background-color: #e0e0e0;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 14;
+    }
+    .pivot::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 3px;
+        height: 3px;
+        background-color: #666;
+        border-radius: 50%;
+    }
+
+</style>
+</head>
+<body>
+
+<div class="watch-case">
+    <div class="bezel">
+        <div class="dial">
+            
+            <div class="crown-pos">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="goldGradMain" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="10%" style="stop-color:#FDD017;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#FFFFE0;stop-opacity:1" /> <stop offset="90%" style="stop-color:#C58F09;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <path fill-rule="evenodd" d="
+                        M 30,85 A 20,12 0 1 1 70,85 A 20,12 0 1 1 30,85 Z
+                        M 62,89 A 12,4 0 1 0 38,89 A 12,4 0 1 0 62,89 Z
+                    " fill="url(#goldGradMain)" />
+                    
+                    <circle cx="50" cy="10" r="5.5" fill="url(#goldGradMain)" />
+                    <path d="M 49,15 L 46,78 L 54,78 L 51,15 Z" fill="url(#goldGradMain)" />
+                    
+                    <circle cx="32" cy="18" r="5" fill="url(#goldGradMain)" />
+                    <path d="M 32,22 L 38,77 L 46,77 L 33,21 Z" fill="url(#goldGradMain)" />
+                    
+                    <circle cx="68" cy="18" r="5" fill="url(#goldGradMain)" />
+                    <path d="M 68,22 L 54,77 L 62,77 L 67,21 Z" fill="url(#goldGradMain)" />
+                    
+                    <circle cx="14" cy="30" r="4.5" fill="url(#goldGradMain)" />
+                    <path d="M 15,32 L 38,82 L 30,82 L 13,31 Z" fill="url(#goldGradMain)" />
+                    
+                    <circle cx="86" cy="30" r="4.5" fill="url(#goldGradMain)" />
+                    <path d="M 85,32 L 62,82 L 70,82 L 87,31 Z" fill="url(#goldGradMain)" />
+                </svg>
+            </div>
+
+            <div class="text-top">
+                <div class="text-brand">MWL</div>
+                <div class="text-model">CHONGKOLNEE KAEWSOD</div>
+            </div>
+            
+            <div class="text-bottom">
+                <div class="text-cert">WISHING YOU A VERY HAPPY<br/>VALENTINE’S DAY</div>
+            </div>
+
+            <div id="markers-container"></div>
+
+            <div class="hand hour-hand" id="hour">
+                <div class="hand-tail"></div>
+            </div>
+            <div class="hand minute-hand" id="minute">
+                <div class="hand-tail"></div>
+            </div>
+            
+            <div class="hand second-hand" id="second"></div>
+            <div class="pivot"></div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const markersContainer = document.getElementById('markers-container');
+    const radiusMinute = 138;
+    const radiusHour = 115;
+
+    // TINY CROWN (Bottom) - UPDATED WITH GOLD GRADIENT
+    // We embed the defs and use url(#goldGradTiny) for the fill
+    const crownSVG = `
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+             <defs>
+                <linearGradient id="goldGradTiny" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="10%" style="stop-color:#FDD017;stop-opacity:1" />
+                    <stop offset="50%" style="stop-color:#FFFFE0;stop-opacity:1" />
+                    <stop offset="90%" style="stop-color:#C58F09;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <path fill-rule="evenodd" d="
+                M 30,85 A 20,12 0 1 1 70,85 A 20,12 0 1 1 30,85 Z
+                M 62,89 A 12,4 0 1 0 38,89 A 12,4 0 1 0 62,89 Z
+            " fill="url(#goldGradTiny)" />
+            
+            <circle cx="50" cy="10" r="6" fill="url(#goldGradTiny)" />
+            <path d="M 49,15 L 46,78 L 54,78 L 51,15 Z" fill="url(#goldGradTiny)" />
+            
+            <circle cx="32" cy="18" r="6" fill="url(#goldGradTiny)" />
+            <path d="M 32,22 L 38,77 L 46,77 L 33,21 Z" fill="url(#goldGradTiny)" />
+            
+            <circle cx="68" cy="18" r="6" fill="url(#goldGradTiny)" />
+            <path d="M 68,22 L 54,77 L 62,77 L 67,21 Z" fill="url(#goldGradTiny)" />
+            
+            <circle cx="14" cy="30" r="5" fill="url(#goldGradTiny)" />
+            <path d="M 15,32 L 38,82 L 30,82 L 13,31 Z" fill="url(#goldGradTiny)" />
+            
+            <circle cx="86" cy="30" r="5" fill="url(#goldGradTiny)" />
+            <path d="M 85,32 L 62,82 L 70,82 L 87,31 Z" fill="url(#goldGradTiny)" />
+        </svg>
+    `;
+
+    for (let i = 0; i < 60; i++) {
+        if (i === 29) {
+            const angle = i * 6;
+            const rad = (angle - 90) * (Math.PI / 180);
+            const x = 145 + radiusMinute * Math.cos(rad);
+            const y = 145 + radiusMinute * Math.sin(rad);
+            const txt = document.createElement('div');
+            txt.className = 'swiss-text';
+            txt.innerText = "MADE";
+            txt.style.left = x + 'px';
+            txt.style.top = y + 'px';
+            txt.style.transform = `translate(-50%, -50%) rotate(${angle - 180}deg)`; 
+            markersContainer.appendChild(txt);
+            continue;
+        }
+
+        if (i === 31) {
+            const angle = i * 6;
+            const rad = (angle - 90) * (Math.PI / 180);
+            const x = 145 + radiusMinute * Math.cos(rad);
+            const y = 145 + radiusMinute * Math.sin(rad);
+            const txt = document.createElement('div');
+            txt.className = 'swiss-text';
+            txt.innerText = "HOME";
+            txt.style.left = x + 'px';
+            txt.style.top = y + 'px';
+            txt.style.transform = `translate(-50%, -50%) rotate(${angle - 180}deg)`; 
+            markersContainer.appendChild(txt);
+            continue;
+        }
+
+        const angle = i * 6;
+        const rad = (angle - 90) * (Math.PI / 180);
+        const xOuter = 145 + radiusMinute * Math.cos(rad);
+        const yOuter = 145 + radiusMinute * Math.sin(rad);
+
+        if (i === 0) {
+            const square = document.createElement('div');
+            square.className = 'minute-square';
+            square.style.left = xOuter + 'px';
+            square.style.top = yOuter + 'px';
+            square.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+            markersContainer.appendChild(square);
+            continue; 
+        }
+
+        if (i % 5 === 0) {
+            const marker = document.createElement('div');
+            marker.className = 'marker';
+            if (i === 15 || i === 30 || i === 45) {
+                marker.classList.add('double');
+                const inner1 = document.createElement('div');
+                const inner2 = document.createElement('div');
+                marker.appendChild(inner1);
+                marker.appendChild(inner2);
+            }
+            const xInner = 145 + radiusHour * Math.cos(rad);
+            const yInner = 145 + radiusHour * Math.sin(rad);
+            marker.style.left = xInner + 'px';
+            marker.style.top = yInner + 'px';
+            marker.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+            markersContainer.appendChild(marker);
+
+            if (i === 30) {
+                const crownRadius = radiusMinute - 7;
+                const xCrown = 145 + crownRadius * Math.cos(rad);
+                const yCrown = 145 + crownRadius * Math.sin(rad);
+                const tCrown = document.createElement('div');
+                tCrown.className = 'tiny-crown';
+                tCrown.innerHTML = crownSVG;
+                tCrown.style.left = xCrown + 'px';
+                tCrown.style.top = yCrown + 'px';
+                tCrown.style.transform = `translate(-50%, -50%) rotate(0deg)`; 
+                markersContainer.appendChild(tCrown);
+            } else {
+                const square = document.createElement('div');
+                square.className = 'minute-square';
+                square.style.left = xOuter + 'px';
+                square.style.top = yOuter + 'px';
+                square.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+                markersContainer.appendChild(square);
+            }
+        } else {
+            const tick = document.createElement('div');
+            tick.className = 'minute-tick';
+            tick.style.left = xOuter + 'px';
+            tick.style.top = yOuter + 'px';
+            tick.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+            markersContainer.appendChild(tick);
+        }
+    }
+
+    function updateClock() {
+        const now = new Date();
+        const seconds = now.getSeconds();
+        const milliseconds = now.getMilliseconds(); 
+        const minutes = now.getMinutes();
+        const hours = now.getHours();
+        
+        const secondsDeg = ((seconds + (milliseconds / 1000)) / 60) * 360;
+        const minutesDeg = ((minutes / 60) * 360) + ((seconds/60)*6);
+        const hoursDeg = ((hours / 12) * 360) + ((minutes/60)*30);
+
+        const shadowDistance = 3; 
+
+        let radM = (minutesDeg + 180) * (Math.PI / 180);
+        let shadowXM = shadowDistance * Math.sin(radM);
+        let shadowYM = shadowDistance * -Math.cos(radM);
+
+        let radH = (hoursDeg + 180) * (Math.PI / 180);
+        let shadowXH = shadowDistance * Math.sin(radH);
+        let shadowYH = shadowDistance * -Math.cos(radH);
+
+        document.getElementById('second').style.transform = `rotate(${secondsDeg}deg)`;
+        
+        const minuteHand = document.getElementById('minute');
+        minuteHand.style.transform = `rotate(${minutesDeg}deg)`;
+        minuteHand.style.boxShadow = `${shadowXM.toFixed(2)}px ${shadowYM.toFixed(2)}px 3px rgba(0,0,0,0.25)`;
+
+        const hourHand = document.getElementById('hour');
+        hourHand.style.transform = `rotate(${hoursDeg}deg)`;
+        hourHand.style.boxShadow = `${shadowXH.toFixed(2)}px ${shadowYH.toFixed(2)}px 3px rgba(0,0,0,0.25)`;
+
+        requestAnimationFrame(updateClock);
+    }
+    
+    requestAnimationFrame(updateClock);
+</script>
+
+</body>
+</html>
