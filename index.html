@@ -4,15 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Valentine Gift Watch</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
     body {
         display: flex;
+        flex-direction: column; /* Stack watch and note vertically */
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        min-height: 100vh;
         background-color: #f0f0f0;
         margin: 0;
         font-family: 'Arial', sans-serif;
+        padding: 20px; /* Add padding for smaller screens */
+        box-sizing: border-box;
+    }
+
+    /* --- Watch Container --- */
+    .watch-container {
+        position: relative;
+        margin-bottom: 40px; /* Space between watch and note */
     }
 
     .watch-case {
@@ -105,37 +116,26 @@
         box-shadow: 0 0 2px rgba(0,0,0,0.5);
     }
 
-    /* --- NEW: Improved Date Window Style --- */
+    /* --- Date Window Style --- */
     .date-window-style {
         position: absolute;
-        width: 34px;  /* Wider to fit numbers */
-        height: 26px; /* Taller */
-        
-        /* Background: Very light grey/white for the wheel */
+        width: 34px;  
+        height: 26px; 
         background-color: #fcfcfc; 
-        border-radius: 4px; /* Slightly rounded corners */
+        border-radius: 4px; 
         z-index: 6;
         display: flex;
         justify-content: center;
         align-items: center;
-        
-        /* Typography */
         font-family: 'Times New Roman', Times, serif;
         font-weight: 900;
-        font-size: 19px; /* Clearer, larger font */
+        font-size: 19px; 
         color: black;
         line-height: 1;
-
-        /* Gold Frame / Bevel */
         border: 2px solid #d4af37; 
-        box-shadow: 
-            inset 1px 1px 3px rgba(0,0,0,0.2), /* Inner shadow for depth */
-            0 1px 2px rgba(0,0,0,0.3); /* Outer drop shadow */
-        
-        overflow: hidden; /* Ensures glass sheen stays inside */
+        box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.3); 
+        overflow: hidden; 
     }
-
-    /* --- Glass Reflection Effect (The Sheen) --- */
     .date-window-style::after {
         content: '';
         position: absolute;
@@ -143,15 +143,8 @@
         left: 0;
         width: 100%;
         height: 100%;
-        /* Diagonal white gradient to look like glass reflection */
-        background: linear-gradient(
-            135deg, 
-            rgba(255,255,255,0.6) 0%, 
-            rgba(255,255,255,0.1) 45%, 
-            rgba(255,255,255,0) 46%, 
-            rgba(255,255,255,0) 100%
-        );
-        pointer-events: none; /* Let clicks pass through if needed */
+        background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.1) 45%, rgba(255,255,255,0) 46%, rgba(255,255,255,0) 100%);
+        pointer-events: none; 
     }
      
     /* --- The Tiny Crown at 6 O'clock --- */
@@ -367,64 +360,108 @@
         border-radius: 50%;
     }
 
+    /* --- PAPER NOTE STYLES --- */
+    .paper-note {
+        width: 350px;
+        max-width: 90%;
+        background-color: #fdfbf7;
+        padding: 25px;
+        box-shadow: 1px 1px 5px rgba(0,0,0,0.1), 0 0 1px rgba(0,0,0,0.1);
+        border-radius: 2px;
+        position: relative;
+        /* Slight texture effect */
+        background-image: linear-gradient(#f1f1f1 1px, transparent 1px);
+        background-size: 100% 1.8rem; /* Line height match */
+    }
+
+    .paper-text {
+        font-family: 'Dancing Script', cursive; /* Handwritten font */
+        font-size: 18px;
+        line-height: 1.8rem; /* Matches grid lines */
+        color: #444;
+        text-align: justify;
+    }
+    
+    .signature {
+        margin-top: 15px;
+        text-align: right;
+        font-weight: bold;
+        font-size: 20px;
+        color: #222;
+    }
+
 </style>
 </head>
 <body>
 
-<div class="watch-case">
-    <div class="bezel">
-        <div class="dial">
-             
-            <div class="crown-pos">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="mainGoldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#FFC000;stop-opacity:1" /> 
-                            <stop offset="20%" style="stop-color:#FFFFAC;stop-opacity:1" /> 
-                            <stop offset="50%" style="stop-color:#FFD700;stop-opacity:1" /> 
-                            <stop offset="80%" style="stop-color:#FFFFE0;stop-opacity:1" /> 
-                            <stop offset="100%" style="stop-color:#E0A000;stop-opacity:1" /> 
-                        </linearGradient>
-                    </defs>
-                    <path fill-rule="evenodd" d="
-                        M 30,85 A 20,12 0 1 1 70,85 A 20,12 0 1 1 30,85 Z
-                        M 62,89 A 12,4 0 1 0 38,89 A 12,4 0 1 0 62,89 Z
-                    " fill="url(#mainGoldGradient)" />
-                    <circle cx="50" cy="10" r="5.5" fill="url(#mainGoldGradient)" />
-                    <path d="M 49,15 L 46,78 L 54,78 L 51,15 Z" fill="url(#mainGoldGradient)" />
-                    <circle cx="32" cy="18" r="5" fill="url(#mainGoldGradient)" />
-                    <path d="M 32,22 L 38,77 L 46,77 L 33,21 Z" fill="url(#mainGoldGradient)" />
-                    <circle cx="68" cy="18" r="5" fill="url(#mainGoldGradient)" />
-                    <path d="M 68,22 L 54,77 L 62,77 L 67,21 Z" fill="url(#mainGoldGradient)" />
-                    <circle cx="14" cy="30" r="4.5" fill="url(#mainGoldGradient)" />
-                    <path d="M 15,32 L 38,82 L 30,82 L 13,31 Z" fill="url(#mainGoldGradient)" />
-                    <circle cx="86" cy="30" r="4.5" fill="url(#mainGoldGradient)" />
-                    <path d="M 85,32 L 62,82 L 70,82 L 87,31 Z" fill="url(#mainGoldGradient)" />
-                </svg>
-            </div>
+<div class="watch-container">
+    <div class="watch-case">
+        <div class="bezel">
+            <div class="dial">
+                
+                <div class="crown-pos">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="mainGoldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#FFC000;stop-opacity:1" /> 
+                                <stop offset="20%" style="stop-color:#FFFFAC;stop-opacity:1" /> 
+                                <stop offset="50%" style="stop-color:#FFD700;stop-opacity:1" /> 
+                                <stop offset="80%" style="stop-color:#FFFFE0;stop-opacity:1" /> 
+                                <stop offset="100%" style="stop-color:#E0A000;stop-opacity:1" /> 
+                            </linearGradient>
+                        </defs>
+                        <path fill-rule="evenodd" d="
+                            M 30,85 A 20,12 0 1 1 70,85 A 20,12 0 1 1 30,85 Z
+                            M 62,89 A 12,4 0 1 0 38,89 A 12,4 0 1 0 62,89 Z
+                        " fill="url(#mainGoldGradient)" />
+                        <circle cx="50" cy="10" r="5.5" fill="url(#mainGoldGradient)" />
+                        <path d="M 49,15 L 46,78 L 54,78 L 51,15 Z" fill="url(#mainGoldGradient)" />
+                        <circle cx="32" cy="18" r="5" fill="url(#mainGoldGradient)" />
+                        <path d="M 32,22 L 38,77 L 46,77 L 33,21 Z" fill="url(#mainGoldGradient)" />
+                        <circle cx="68" cy="18" r="5" fill="url(#mainGoldGradient)" />
+                        <path d="M 68,22 L 54,77 L 62,77 L 67,21 Z" fill="url(#mainGoldGradient)" />
+                        <circle cx="14" cy="30" r="4.5" fill="url(#mainGoldGradient)" />
+                        <path d="M 15,32 L 38,82 L 30,82 L 13,31 Z" fill="url(#mainGoldGradient)" />
+                        <circle cx="86" cy="30" r="4.5" fill="url(#mainGoldGradient)" />
+                        <path d="M 85,32 L 62,82 L 70,82 L 87,31 Z" fill="url(#mainGoldGradient)" />
+                    </svg>
+                </div>
 
-            <div class="text-top">
-                <div class="text-brand">MWL</div>
-                <div class="text-model">CHONGKOLNEE  KAEWSOD</div>
-            </div>
-             
-            <div class="text-bottom">
-                <div class="text-cert">WISHING YOU A VERY HAPPY<br/>VALENTINE'S DAY 2026</div>
-            </div>
+                <div class="text-top">
+                    <div class="text-brand">MWL</div>
+                    <div class="text-model">CHONGKOLNEE  KAEWSOD</div>
+                </div>
+                
+                <div class="text-bottom">
+                    <div class="text-cert">WISHING YOU A VERY HAPPY<br/>VALENTINE’S DAY 2026</div>
+                </div>
 
-            <div id="markers-container"></div>
+                <div id="markers-container"></div>
 
-            <div class="hand hour-hand" id="hour">
-                <div class="hand-tail"></div>
-            </div>
-            <div class="hand minute-hand" id="minute">
-                <div class="hand-tail"></div>
-            </div>
-             
-            <div class="hand second-hand" id="second"></div>
-            <div class="pivot"></div>
+                <div class="hand hour-hand" id="hour">
+                    <div class="hand-tail"></div>
+                </div>
+                <div class="hand minute-hand" id="minute">
+                    <div class="hand-tail"></div>
+                </div>
+                
+                <div class="hand second-hand" id="second"></div>
+                <div class="pivot"></div>
 
+            </div>
         </div>
+    </div>
+</div>
+
+<div class="paper-note">
+    <div class="paper-text">
+Dearest Auntie,<br/><br/>
+
+Each word on this dial was chosen with special meaning. <br/>-<strong>MWL</strong> signifies <em> '<u> Made with Love </u>' </em> (named by Nong Pon himself). <br/>-<strong>CHONGKOLNEE KAEWSOD </strong> is here to tell you how much we love and respect you. Thank you for your kindness and the unconditional love you always give us. <br/>-<strong>WISHING YOU A VERY HAPPY VALENTINE’S DAY 2026</strong> is our warmest wish, straight from our hearts to yours. <br/>-<strong>HOME MADE</strong> reminds you that we made this gift with our own hands and hearts. We started making it during our New Year break at home, which is the happiest place in the world when we are all together. <br/><br/>We crafted this watch with just one simple goal: to bring joy to the one we love.
+
+    </div>
+    <div class="signature">
+        — PON & TONY
     </div>
 </div>
 
@@ -433,7 +470,6 @@
     const radiusMinute = 138;
     const radiusHour = 115;
 
-    // Crown SVG string (reused for tiny crown)
     const crownSVG = `
         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -463,7 +499,6 @@
     `;
 
     for (let i = 0; i < 60; i++) {
-        // 1. SWISS MADE / HOME
         if (i === 29 || i === 31) {
             const angle = i * 6;
             const rad = (angle - 90) * (Math.PI / 180);
@@ -479,11 +514,9 @@
             continue;
         }
 
-        // 2. Date Window at 3 o'clock (Index 15)
         if (i === 15) {
             const angle = i * 6;
             const rad = (angle - 90) * (Math.PI / 180);
-            // Pull the date window slightly inwards from the marker line
             const dateRadius = radiusHour - 8; 
             const xDate = 145 + dateRadius * Math.cos(rad);
             const yDate = 145 + dateRadius * Math.sin(rad);
@@ -504,7 +537,6 @@
         const xOuter = 145 + radiusMinute * Math.cos(rad);
         const yOuter = 145 + radiusMinute * Math.sin(rad);
 
-        // 3. 12 o'clock marker
         if (i === 0) {
             const square = document.createElement('div');
             square.className = 'minute-square';
@@ -515,7 +547,6 @@
             continue; 
         }
 
-        // 4. Hour Markers
         if (i % 5 === 0) {
             const marker = document.createElement('div');
             marker.className = 'marker';
@@ -533,7 +564,6 @@
             marker.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
             markersContainer.appendChild(marker);
 
-            // Add tiny crown at 6 o'clock
             if (i === 30) {
                 const crownRadius = radiusMinute - 7;
                 const xCrown = 145 + crownRadius * Math.cos(rad);
@@ -554,7 +584,6 @@
                 markersContainer.appendChild(square);
             }
         } else {
-            // 5. Minute ticks
             const tick = document.createElement('div');
             tick.className = 'minute-tick';
             tick.style.left = xOuter + 'px';
