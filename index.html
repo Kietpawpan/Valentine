@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>14 Feb 2026 Gift</title>
+<title>Valentine Gift Watch</title>
 <style>
     body {
         display: flex;
@@ -18,41 +18,25 @@
     .watch-case {
         width: 350px;
         height: 350px;
-        /* Slightly darker metal case to contrast with the bright bezel */
-        background: radial-gradient(circle at center, #d0d0d0, #a0a0a0);
+        background: radial-gradient(circle at center, #e0e0e0, #b0b0b0);
         border-radius: 50%;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         display: flex;
         justify-content: center;
         align-items: center;
         position: relative;
-        border: 1px solid #888;
+        border: 2px solid #999;
     }
 
-    /* --- UPDATED BEZEL --- */
     .bezel {
-        width: 301px;
-        height: 301px;
+        width: 320px;
+        height: 320px;
+        background: linear-gradient(135deg, #f5f5f5 0%, #dcdcdc 50%, #a9a9a9 100%);
         border-radius: 50%;
         display: flex;
         justify-content: center;
         align-items: center;
-        position: relative;
-        z-index: 2;
-
-        /* --- CSS Realistic Polished Steel Simulation --- */
-        background-color:#000000; 
-
-        background-image: 
-            radial-gradient(ellipse at 30% 25%, rgba(255,255,255,1) 0%, transparent 35%),
-            linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 20%),
-            linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 40%),
-            conic-gradient(from 110deg, #ffffff, white, #ffffff, #ffffff);
-
-        box-shadow: 
-            inset 0 0 6px rgba(0,0,0,0.7),
-            inset 0 0 2px 1px rgba(255,255,255,0.8),
-            0 4px 8px rgba(0,0,0,0.3);
+        box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
     }
 
     .dial {
@@ -60,29 +44,27 @@
         height: 290px;
         border-radius: 50%;
         position: relative;
-        /* Deepened inner shadow for better contrast with new bezel */
-        box-shadow: inset 0 2px 20px rgba(0,0,0,0.7);
-        background-color: #dc143c;/*#006039;Rolex Green*/
+        box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+        background-color: #dc143c;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        z-index: 3;
     }
 
-    /* --- Applied Hour Markers --- */
+    /* --- Applied Hour Markers (Gold Rimmed) --- */
     .marker {
         position: absolute;
         width: 6px;
         height: 25px;
-        background-color: white;
+        background-color: white; /* Lume */
         left: 50%;
         top: 50%;
         transform-origin: center;
-        border: 1px solid #ccc;
+        border: 1px solid #C59208; /* Gold Border */
         box-shadow: 0 0 2px rgba(0,0,0,0.5);
         z-index: 5;
     }
-    
+     
     .marker.double {
         width: 14px;
         border: none;
@@ -94,7 +76,7 @@
         width: 5px;
         height: 100%;
         background-color: white;
-        border: 1px solid #ccc;
+        border: 1px solid #C59208; /* Gold Border */
     }
 
     /* --- Minute Ticks --- */
@@ -109,7 +91,7 @@
         z-index: 4;
     }
 
-    /* --- Small Squares --- */
+    /* --- Small Squares (Gold Rimmed) --- */
     .minute-square {
         position: absolute;
         width: 6px; 
@@ -119,10 +101,59 @@
         top: 50%;
         transform-origin: center;
         z-index: 4;
-        border: 1px solid #ccc; 
+        border: 1px solid #C59208; /* Gold Border */
         box-shadow: 0 0 2px rgba(0,0,0,0.5);
     }
-    
+
+    /* --- NEW: Improved Date Window Style --- */
+    .date-window-style {
+        position: absolute;
+        width: 34px;  /* Wider to fit numbers */
+        height: 26px; /* Taller */
+        
+        /* Background: Very light grey/white for the wheel */
+        background-color: #fcfcfc; 
+        border-radius: 4px; /* Slightly rounded corners */
+        z-index: 6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        /* Typography */
+        font-family: 'Times New Roman', Times, serif;
+        font-weight: 900;
+        font-size: 19px; /* Clearer, larger font */
+        color: black;
+        line-height: 1;
+
+        /* Gold Frame / Bevel */
+        border: 2px solid #d4af37; 
+        box-shadow: 
+            inset 1px 1px 3px rgba(0,0,0,0.2), /* Inner shadow for depth */
+            0 1px 2px rgba(0,0,0,0.3); /* Outer drop shadow */
+        
+        overflow: hidden; /* Ensures glass sheen stays inside */
+    }
+
+    /* --- Glass Reflection Effect (The Sheen) --- */
+    .date-window-style::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        /* Diagonal white gradient to look like glass reflection */
+        background: linear-gradient(
+            135deg, 
+            rgba(255,255,255,0.6) 0%, 
+            rgba(255,255,255,0.1) 45%, 
+            rgba(255,255,255,0) 46%, 
+            rgba(255,255,255,0) 100%
+        );
+        pointer-events: none; /* Let clicks pass through if needed */
+    }
+     
     /* --- The Tiny Crown at 6 O'clock --- */
     .tiny-crown {
         position: absolute;
@@ -133,14 +164,10 @@
         transform-origin: center;
         z-index: 4;
     }
-    /* NEW: Add drop shadow to gold crowns for pop */
-    .tiny-crown svg, .crown-pos svg {
+    .tiny-crown svg {
         width: 100%;
         height: 100%;
-        /* fill: white;  <-- REMOVED, handled by gradient in SVG */
-        filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.5));
     }
-
 
     /* --- Main Crown Position (Top) --- */
     .crown-pos {
@@ -151,6 +178,7 @@
         width: 32px;
         height: 32px;
         z-index: 6;
+        filter: drop-shadow(0px 0px 3px rgba(255, 223, 0, 0.8)) drop-shadow(0px 1px 2px rgba(0,0,0,0.4));
     }
 
     .text-brand {
@@ -171,6 +199,7 @@
         font-weight: bold;
         letter-spacing: 0.2px;
         opacity: 0.9;
+        margin-top:-2.5px;
     }
 
     .text-top {
@@ -190,7 +219,7 @@
         color: white;
         line-height: 1.2;
     }
-    
+     
     .text-cert {
         font-family: 'Arial Narrow', 'Roboto Condensed', sans-serif;
         font-size: 8.5px;
@@ -199,7 +228,7 @@
         transform: scaleX(0.75);
         transform-origin: center;
     }
-    
+     
     /* --- SWISS MADE text --- */
     .swiss-text {
         position: absolute;
@@ -228,7 +257,7 @@
         left: 0;
         width: 100%;
         height: 22px;
-        background: linear-gradient(to right, #d0d0d0 50%, #000000 50%);
+        background: linear-gradient(to right, #8a6e2f 50%, #fdd017 50%);
         border-radius: 0 0 1px 1px;
         z-index: 1;
     }
@@ -236,10 +265,11 @@
     .hour-hand {
         width: 9px;
         height: 90px;
-        background: linear-gradient(to right, #d0d0d0 50%, #707070 50%);
+        background: linear-gradient(to right, #8a6e2f 50%, #fdd017 50%);
         margin-left: -3.5px;
         z-index: 11;
         border-radius: 1px 1px 0 0;
+        clip-path: polygon(15% 0, 85% 0, 100% 100%, 100% 130%, 0% 130%, 0% 100%);
     }
     .hour-hand::before {
         content: '';
@@ -248,7 +278,7 @@
         left: 50%;
         width: 50%;
         height: 45px; 
-        background-color: #000000;
+        background-color: #ffffff;
         z-index: 2;
     }
     .hour-hand::after {
@@ -266,10 +296,11 @@
     .minute-hand {
         width: 6px;
         height: 132px; 
-        background: linear-gradient(to right, #ffffff 50%, #707070 50%);
+        background: linear-gradient(to right, #997c36 50%, #fce686 50%);
         margin-left: -2.5px;
         z-index: 12;
         border-radius: 1px 1px 0 0;
+        clip-path: polygon(20% 0, 80% 0, 100% 100%, 100% 130%, 0% 130%, 0% 100%);
     }
     .minute-hand::before {
         content: '';
@@ -278,14 +309,14 @@
         left: 50%;
         width: 50%;
         height: 40px; 
-        background-color: #000000;
+        background-color: #ffffff;
         z-index: 2;
     }
     .minute-hand::after {
         content: '';
         position: absolute;
         bottom: 40px;
-        width: 3px;
+        width: 2.5px;
         height: 80px; 
         background-color: #ffffff;
         border-radius: 0.5px;
@@ -294,20 +325,22 @@
     }
 
     .second-hand {
-        width:3px;
+        width: 3px;
         height: 132px; 
-        background: linear-gradient(to right, #ffffff 50%, #333333 50%);
-        margin-left: -1px;
+        background: linear-gradient(to right, #fff4b8 50%, #b8860b 50%);
+        margin-left: -1.5px; 
         z-index: 13;
+        clip-path: polygon(40% 0, 60% 0, 100% 100%, 100% 140%, 0% 140%, 0% 100%);
     }
     .second-hand::after {
         content: '';
         position: absolute;
         bottom: -30px;
-        left: 0;
+        left: 50%;
+        transform: translateX(-50%);
         width: 3.5px;
         height: 50px;
-        background: linear-gradient(to right, #ffffff 50%, #333333 50%);
+        background: linear-gradient(to right, #fff4b8 50%, #8b6508 50%);
     }
 
     .pivot {
@@ -316,10 +349,11 @@
         left: 50%;
         width: 10px;
         height: 10px;
-        background-color: #e0e0e0;
+        background-color: #fff4b8;
         border-radius: 50%;
         transform: translate(-50%, -50%);
         z-index: 14;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.4);
     }
     .pivot::after {
         content: '';
@@ -340,44 +374,42 @@
 <div class="watch-case">
     <div class="bezel">
         <div class="dial">
-            
+             
             <div class="crown-pos">
                 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <defs>
-                        <linearGradient id="goldGradMain" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="10%" style="stop-color:#FDD017;stop-opacity:1" />
-                            <stop offset="50%" style="stop-color:#FFFFE0;stop-opacity:1" /> <stop offset="90%" style="stop-color:#C58F09;stop-opacity:1" />
+                        <linearGradient id="mainGoldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#FFC000;stop-opacity:1" /> 
+                            <stop offset="20%" style="stop-color:#FFFFAC;stop-opacity:1" /> 
+                            <stop offset="50%" style="stop-color:#FFD700;stop-opacity:1" /> 
+                            <stop offset="80%" style="stop-color:#FFFFE0;stop-opacity:1" /> 
+                            <stop offset="100%" style="stop-color:#E0A000;stop-opacity:1" /> 
                         </linearGradient>
                     </defs>
                     <path fill-rule="evenodd" d="
                         M 30,85 A 20,12 0 1 1 70,85 A 20,12 0 1 1 30,85 Z
                         M 62,89 A 12,4 0 1 0 38,89 A 12,4 0 1 0 62,89 Z
-                    " fill="url(#goldGradMain)" />
-                    
-                    <circle cx="50" cy="10" r="5.5" fill="url(#goldGradMain)" />
-                    <path d="M 49,15 L 46,78 L 54,78 L 51,15 Z" fill="url(#goldGradMain)" />
-                    
-                    <circle cx="32" cy="18" r="5" fill="url(#goldGradMain)" />
-                    <path d="M 32,22 L 38,77 L 46,77 L 33,21 Z" fill="url(#goldGradMain)" />
-                    
-                    <circle cx="68" cy="18" r="5" fill="url(#goldGradMain)" />
-                    <path d="M 68,22 L 54,77 L 62,77 L 67,21 Z" fill="url(#goldGradMain)" />
-                    
-                    <circle cx="14" cy="30" r="4.5" fill="url(#goldGradMain)" />
-                    <path d="M 15,32 L 38,82 L 30,82 L 13,31 Z" fill="url(#goldGradMain)" />
-                    
-                    <circle cx="86" cy="30" r="4.5" fill="url(#goldGradMain)" />
-                    <path d="M 85,32 L 62,82 L 70,82 L 87,31 Z" fill="url(#goldGradMain)" />
+                    " fill="url(#mainGoldGradient)" />
+                    <circle cx="50" cy="10" r="5.5" fill="url(#mainGoldGradient)" />
+                    <path d="M 49,15 L 46,78 L 54,78 L 51,15 Z" fill="url(#mainGoldGradient)" />
+                    <circle cx="32" cy="18" r="5" fill="url(#mainGoldGradient)" />
+                    <path d="M 32,22 L 38,77 L 46,77 L 33,21 Z" fill="url(#mainGoldGradient)" />
+                    <circle cx="68" cy="18" r="5" fill="url(#mainGoldGradient)" />
+                    <path d="M 68,22 L 54,77 L 62,77 L 67,21 Z" fill="url(#mainGoldGradient)" />
+                    <circle cx="14" cy="30" r="4.5" fill="url(#mainGoldGradient)" />
+                    <path d="M 15,32 L 38,82 L 30,82 L 13,31 Z" fill="url(#mainGoldGradient)" />
+                    <circle cx="86" cy="30" r="4.5" fill="url(#mainGoldGradient)" />
+                    <path d="M 85,32 L 62,82 L 70,82 L 87,31 Z" fill="url(#mainGoldGradient)" />
                 </svg>
             </div>
 
             <div class="text-top">
                 <div class="text-brand">MWL</div>
-                <div class="text-model">CHONGKOLNEE KAEWSOD</div>
+                <div class="text-model">CHONGKOLNEE  KAEWSOD</div>
             </div>
-            
+             
             <div class="text-bottom">
-                <div class="text-cert">WISHING YOU A VERY HAPPY<br/>VALENTINE’S DAY</div>
+                <div class="text-cert">WISHING YOU A VERY HAPPY<br/>VALENTINE'S DAY 2026</div>
             </div>
 
             <div id="markers-container"></div>
@@ -388,7 +420,7 @@
             <div class="hand minute-hand" id="minute">
                 <div class="hand-tail"></div>
             </div>
-            
+             
             <div class="hand second-hand" id="second"></div>
             <div class="pivot"></div>
 
@@ -401,48 +433,45 @@
     const radiusMinute = 138;
     const radiusHour = 115;
 
-    // TINY CROWN (Bottom) - UPDATED WITH GOLD GRADIENT
-    // We embed the defs and use url(#goldGradTiny) for the fill
+    // Crown SVG string (reused for tiny crown)
     const crownSVG = `
         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-             <defs>
-                <linearGradient id="goldGradTiny" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="10%" style="stop-color:#FDD017;stop-opacity:1" />
-                    <stop offset="50%" style="stop-color:#FFFFE0;stop-opacity:1" />
-                    <stop offset="90%" style="stop-color:#C58F09;stop-opacity:1" />
+            <defs>
+                <linearGradient id="tinyGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#FFC000;stop-opacity:1" />
+                    <stop offset="20%" style="stop-color:#FFFFAC;stop-opacity:1" />
+                    <stop offset="50%" style="stop-color:#FFD700;stop-opacity:1" />
+                    <stop offset="80%" style="stop-color:#FFFFE0;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#E0A000;stop-opacity:1" />
                 </linearGradient>
             </defs>
             <path fill-rule="evenodd" d="
                 M 30,85 A 20,12 0 1 1 70,85 A 20,12 0 1 1 30,85 Z
                 M 62,89 A 12,4 0 1 0 38,89 A 12,4 0 1 0 62,89 Z
-            " fill="url(#goldGradTiny)" />
-            
-            <circle cx="50" cy="10" r="6" fill="url(#goldGradTiny)" />
-            <path d="M 49,15 L 46,78 L 54,78 L 51,15 Z" fill="url(#goldGradTiny)" />
-            
-            <circle cx="32" cy="18" r="6" fill="url(#goldGradTiny)" />
-            <path d="M 32,22 L 38,77 L 46,77 L 33,21 Z" fill="url(#goldGradTiny)" />
-            
-            <circle cx="68" cy="18" r="6" fill="url(#goldGradTiny)" />
-            <path d="M 68,22 L 54,77 L 62,77 L 67,21 Z" fill="url(#goldGradTiny)" />
-            
-            <circle cx="14" cy="30" r="5" fill="url(#goldGradTiny)" />
-            <path d="M 15,32 L 38,82 L 30,82 L 13,31 Z" fill="url(#goldGradTiny)" />
-            
-            <circle cx="86" cy="30" r="5" fill="url(#goldGradTiny)" />
-            <path d="M 85,32 L 62,82 L 70,82 L 87,31 Z" fill="url(#goldGradTiny)" />
+            " fill="url(#tinyGoldGrad)" />
+            <circle cx="50" cy="10" r="6" fill="url(#tinyGoldGrad)" />
+            <path d="M 49,15 L 46,78 L 54,78 L 51,15 Z" fill="url(#tinyGoldGrad)" />
+            <circle cx="32" cy="18" r="6" fill="url(#tinyGoldGrad)" />
+            <path d="M 32,22 L 38,77 L 46,77 L 33,21 Z" fill="url(#tinyGoldGrad)" />
+            <circle cx="68" cy="18" r="6" fill="url(#tinyGoldGrad)" />
+            <path d="M 68,22 L 54,77 L 62,77 L 67,21 Z" fill="url(#tinyGoldGrad)" />
+            <circle cx="14" cy="30" r="5" fill="url(#tinyGoldGrad)" />
+            <path d="M 15,32 L 38,82 L 30,82 L 13,31 Z" fill="url(#tinyGoldGrad)" />
+            <circle cx="86" cy="30" r="5" fill="url(#tinyGoldGrad)" />
+            <path d="M 85,32 L 62,82 L 70,82 L 87,31 Z" fill="url(#tinyGoldGrad)" />
         </svg>
     `;
 
     for (let i = 0; i < 60; i++) {
-        if (i === 29) {
+        // 1. SWISS MADE / HOME
+        if (i === 29 || i === 31) {
             const angle = i * 6;
             const rad = (angle - 90) * (Math.PI / 180);
             const x = 145 + radiusMinute * Math.cos(rad);
             const y = 145 + radiusMinute * Math.sin(rad);
             const txt = document.createElement('div');
             txt.className = 'swiss-text';
-            txt.innerText = "MADE";
+            txt.innerText = i === 29 ? "MADE" : "HOME";
             txt.style.left = x + 'px';
             txt.style.top = y + 'px';
             txt.style.transform = `translate(-50%, -50%) rotate(${angle - 180}deg)`; 
@@ -450,19 +479,24 @@
             continue;
         }
 
-        if (i === 31) {
+        // 2. Date Window at 3 o'clock (Index 15)
+        if (i === 15) {
             const angle = i * 6;
             const rad = (angle - 90) * (Math.PI / 180);
-            const x = 145 + radiusMinute * Math.cos(rad);
-            const y = 145 + radiusMinute * Math.sin(rad);
-            const txt = document.createElement('div');
-            txt.className = 'swiss-text';
-            txt.innerText = "HOME";
-            txt.style.left = x + 'px';
-            txt.style.top = y + 'px';
-            txt.style.transform = `translate(-50%, -50%) rotate(${angle - 180}deg)`; 
-            markersContainer.appendChild(txt);
-            continue;
+            // Pull the date window slightly inwards from the marker line
+            const dateRadius = radiusHour - 8; 
+            const xDate = 145 + dateRadius * Math.cos(rad);
+            const yDate = 145 + dateRadius * Math.sin(rad);
+
+            const dateWindow = document.createElement('div');
+            dateWindow.id = 'date-window'; 
+            dateWindow.className = 'date-window-style'; 
+            dateWindow.style.left = xDate + 'px';
+            dateWindow.style.top = yDate + 'px';
+            dateWindow.style.transform = `translate(-50%, -50%) rotate(${angle - 90}deg)`;
+
+            markersContainer.appendChild(dateWindow);
+            continue; 
         }
 
         const angle = i * 6;
@@ -470,6 +504,7 @@
         const xOuter = 145 + radiusMinute * Math.cos(rad);
         const yOuter = 145 + radiusMinute * Math.sin(rad);
 
+        // 3. 12 o'clock marker
         if (i === 0) {
             const square = document.createElement('div');
             square.className = 'minute-square';
@@ -480,10 +515,11 @@
             continue; 
         }
 
+        // 4. Hour Markers
         if (i % 5 === 0) {
             const marker = document.createElement('div');
             marker.className = 'marker';
-            if (i === 15 || i === 30 || i === 45) {
+            if (i === 30 || i === 45) {
                 marker.classList.add('double');
                 const inner1 = document.createElement('div');
                 const inner2 = document.createElement('div');
@@ -497,6 +533,7 @@
             marker.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
             markersContainer.appendChild(marker);
 
+            // Add tiny crown at 6 o'clock
             if (i === 30) {
                 const crownRadius = radiusMinute - 7;
                 const xCrown = 145 + crownRadius * Math.cos(rad);
@@ -517,6 +554,7 @@
                 markersContainer.appendChild(square);
             }
         } else {
+            // 5. Minute ticks
             const tick = document.createElement('div');
             tick.className = 'minute-tick';
             tick.style.left = xOuter + 'px';
@@ -528,14 +566,21 @@
 
     function updateClock() {
         const now = new Date();
+        const milliseconds = now.getMilliseconds();
         const seconds = now.getSeconds();
-        const milliseconds = now.getMilliseconds(); 
         const minutes = now.getMinutes();
         const hours = now.getHours();
-        
-        const secondsDeg = ((seconds + (milliseconds / 1000)) / 60) * 360;
-        const minutesDeg = ((minutes / 60) * 360) + ((seconds/60)*6);
-        const hoursDeg = ((hours / 12) * 360) + ((minutes/60)*30);
+        const dateNum = now.getDate();
+         
+        const dateWindow = document.getElementById('date-window');
+        if (dateWindow) {
+            dateWindow.innerText = dateNum;
+        }
+
+        const smoothSeconds = seconds + (milliseconds / 1000);
+        const secondsDeg = (smoothSeconds / 60) * 360;
+        const minutesDeg = ((minutes / 60) * 360) + ((smoothSeconds / 60) * 6);
+        const hoursDeg = ((hours / 12) * 360) + ((minutes / 60) * 30);
 
         const shadowDistance = 3; 
 
@@ -548,18 +593,18 @@
         let shadowYH = shadowDistance * -Math.cos(radH);
 
         document.getElementById('second').style.transform = `rotate(${secondsDeg}deg)`;
-        
+         
         const minuteHand = document.getElementById('minute');
         minuteHand.style.transform = `rotate(${minutesDeg}deg)`;
-        minuteHand.style.boxShadow = `${shadowXM.toFixed(2)}px ${shadowYM.toFixed(2)}px 3px rgba(0,0,0,0.25)`;
+        minuteHand.style.filter = `drop-shadow(${shadowXM.toFixed(2)}px ${shadowYM.toFixed(2)}px 2px rgba(0,0,0,0.3))`;
 
         const hourHand = document.getElementById('hour');
         hourHand.style.transform = `rotate(${hoursDeg}deg)`;
-        hourHand.style.boxShadow = `${shadowXH.toFixed(2)}px ${shadowYH.toFixed(2)}px 3px rgba(0,0,0,0.25)`;
+        hourHand.style.filter = `drop-shadow(${shadowXH.toFixed(2)}px ${shadowYH.toFixed(2)}px 2px rgba(0,0,0,0.3))`;
 
         requestAnimationFrame(updateClock);
     }
-    
+     
     requestAnimationFrame(updateClock);
 </script>
 
