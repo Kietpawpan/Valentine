@@ -3,29 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Valentine Gift Watch</title>
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Kufam:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+
+<title>Valentine Watch & Book</title>
 <style>
     body {
         display: flex;
-        flex-direction: column; /* Stack watch and note vertically */
+        flex-direction: column; /* Stack vertically */
         justify-content: center;
         align-items: center;
         min-height: 100vh;
         background-color: #f0f0f0;
         margin: 0;
         font-family: 'Arial', sans-serif;
-        padding: 20px; /* Add padding for smaller screens */
+        gap: 50px; /* Space between watch and book */
+        padding: 20px;
         box-sizing: border-box;
     }
 
-    /* --- Watch Container --- */
-    .watch-container {
-        position: relative;
-        margin-bottom: 40px; /* Space between watch and note */
+    /* --- MUSIC CONTROL CSS --- */
+    .music-control {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 100;
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        padding: 8px 15px;
+        cursor: pointer;
+        font-family: 'Atkinson Hyperlegible Mono', monospace;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    .music-control:hover {
+        background: white;
+        transform: scale(1.05);
+    }
+    .music-icon {
+        width: 12px;
+        height: 12px;
+        fill: #333;
     }
 
+    /* --- WATCH CSS --- */
     .watch-case {
         width: 350px;
         height: 350px;
@@ -37,6 +66,7 @@
         align-items: center;
         position: relative;
         border: 2px solid #999;
+        flex-shrink: 0; 
     }
 
     .bezel {
@@ -62,20 +92,20 @@
         background-repeat: no-repeat;
     }
 
-    /* --- Applied Hour Markers (Gold Rimmed) --- */
+    /* Markers */
     .marker {
         position: absolute;
         width: 6px;
         height: 25px;
-        background-color: white; /* Lume */
+        background-color: white;
         left: 50%;
         top: 50%;
         transform-origin: center;
-        border: 1px solid #C59208; /* Gold Border */
+        border: 1px solid #C59208;
         box-shadow: 0 0 2px rgba(0,0,0,0.5);
         z-index: 5;
     }
-     
+      
     .marker.double {
         width: 14px;
         border: none;
@@ -87,10 +117,9 @@
         width: 5px;
         height: 100%;
         background-color: white;
-        border: 1px solid #C59208; /* Gold Border */
+        border: 1px solid #C59208;
     }
 
-    /* --- Minute Ticks --- */
     .minute-tick {
         position: absolute;
         width: 2px;
@@ -102,7 +131,6 @@
         z-index: 4;
     }
 
-    /* --- Small Squares (Gold Rimmed) --- */
     .minute-square {
         position: absolute;
         width: 6px; 
@@ -112,28 +140,32 @@
         top: 50%;
         transform-origin: center;
         z-index: 4;
-        border: 1px solid #C59208; /* Gold Border */
+        border: 1px solid #C59208;
         box-shadow: 0 0 2px rgba(0,0,0,0.5);
     }
 
-    /* --- Date Window Style --- */
+    /* Date Window */
     .date-window-style {
         position: absolute;
-        width: 34px;  
-        height: 26px; 
-        background-color: #fcfcfc; 
-        border-radius: 4px; 
+        width: 28px;
+        height: 20px;
+        background-color: #f4f0f0; 
+        border-radius: 3px;
         z-index: 6;
         display: flex;
         justify-content: center;
         align-items: center;
-        font-family: 'Times New Roman', Times, serif;
-        font-weight: 900;
-        font-size: 19px; 
-        color: black;
+        font-family: 'Kufam','Times New Roman', Times, serif;
+        font-weight: 500;
+        font-size: 18px; 
+        color: #111;
         line-height: 1;
+        text-shadow: 0.5px 1px 2px rgba(0,0,0,0.35);
         border: 2px solid #d4af37; 
-        box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.3); 
+        box-shadow: 
+            0 2px 4px rgba(0,0,0,0.5),
+            inset 3px 3px 6px rgba(0,0,0,0.6),
+            inset -1px -1px 3px rgba(255,255,255,0.7);
         overflow: hidden; 
     }
     .date-window-style::after {
@@ -143,11 +175,16 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.1) 45%, rgba(255,255,255,0) 46%, rgba(255,255,255,0) 100%);
+        background: linear-gradient(
+            135deg, 
+            rgba(255,255,255,0.5) 0%, 
+            rgba(255,255,255,0.1) 41%, 
+            rgba(255,255,255,0) 41%, 
+            rgba(255,255,255,0) 100%
+        );
         pointer-events: none; 
     }
-     
-    /* --- The Tiny Crown at 6 O'clock --- */
+      
     .tiny-crown {
         position: absolute;
         width: 10px; 
@@ -162,7 +199,6 @@
         height: 100%;
     }
 
-    /* --- Main Crown Position (Top) --- */
     .crown-pos {
         position: absolute;
         top: 18px; 
@@ -212,7 +248,7 @@
         color: white;
         line-height: 1.2;
     }
-     
+      
     .text-cert {
         font-family: 'Arial Narrow', 'Roboto Condensed', sans-serif;
         font-size: 8.5px;
@@ -221,8 +257,7 @@
         transform: scaleX(0.75);
         transform-origin: center;
     }
-     
-    /* --- SWISS MADE text --- */
+      
     .swiss-text {
         position: absolute;
         color: white;
@@ -233,7 +268,7 @@
         z-index: 5;
     }
 
-    /* --- Hands --- */
+    /* Hands */
     .hand {
         position: absolute;
         bottom: 50%;
@@ -360,116 +395,281 @@
         border-radius: 50%;
     }
 
-    /* --- PAPER NOTE STYLES --- */
-    .paper-note {
-        width: 350px;
-        max-width: 90%;
-        background-color: #fdfbf7;
-        padding: 25px;
-        box-shadow: 1px 1px 5px rgba(0,0,0,0.1), 0 0 1px rgba(0,0,0,0.1);
-        border-radius: 2px;
-        position: relative;
-        /* Slight texture effect */
-        background-image: linear-gradient(#f1f1f1 1px, transparent 1px);
-        background-size: 100% 1.8rem; /* Line height match */
+    /* --- BOOK CSS --- */
+    .book-scene {
+        width: 260px;
+        height: 180px;
+        perspective: 1500px; /* Essential for 3D effect */
+        flex-shrink: 0;
     }
 
-    .paper-text {
-        font-family: 'Dancing Script', cursive; /* Handwritten font */
-        font-size: 18px;
-        line-height: 1.8rem; /* Matches grid lines */
+    .book {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+    }
+
+    .book-cover {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transform-origin: left; /* Hinge on the left */
+        transform-style: preserve-3d;
+        transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        z-index: 20;
+        cursor: pointer; /* Indicates interactivity */
+    }
+
+    .face {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden; /* Hide back when facing away */
+        border-radius: 2px 6px 6px 2px;
+        box-shadow: 2px 5px 10px rgba(0,0,0,0.25);
+    }
+
+    /* Front of the cover (Green + Crown) */
+    .front {
+        /* Rolex Green */
+        background-color: #006039;
+        /* Leather Texture Effect */
+        background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 4px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2;
+        /* Gold trim */
+        border: 1px solid #004529;
+        border-left: 4px solid #00301d; /* Spine */
+    }
+
+    /* Back of the cover (Inside Left) */
+    .back {
+        background-color: #fcfbf7; /* Paper */
+        transform: rotateY(180deg);
+        border-right: 4px solid #ddd;
+    }
+
+    /* The Inside Right Page (Stationary) */
+    .book-inside-right {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #fcfbf7; /* Paper */
+        border-radius: 2px 6px 6px 2px;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: inset 10px 0 15px rgba(0,0,0,0.05); /* Shadow near spine */
+        padding: 25px 20px;
+        box-sizing: border-box;
+        border: 1px solid #e0e0e0;
+        border-left: none;
+    }
+
+    .book-text {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    /* General Text Styling inside book */
+    .book-text p, .book-text h2 {
+        font-family: 'Playfair Display', serif;
+        margin: 0;
         color: #444;
-        text-align: justify;
     }
     
-    .signature {
-        margin-top: 15px;
-        text-align: right;
-        font-weight: bold;
-        font-size: 20px;
-        color: #222;
+    /* New Intro Line */
+    .book-intro {
+         font-size: 16px;
+         font-weight: 600;
+         color: #333 !important;
+    }
+
+    /* Main Header */
+    .book-text h2 {
+        color: #C59208 !important; /* Gold */
+        font-size: 22px;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+    }
+
+    /* Signature */
+    .book-signature {
+        font-size: 15px;
+        font-style: italic;
+        color: #666 !important;
+    }
+
+    /* Large Crown Styling */
+    .large-crown {
+        width: 90px;
+        height: 90px;
+        filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
     }
 
 </style>
 </head>
 <body>
 
-<div class="watch-container">
-    <div class="watch-case">
-        <div class="bezel">
-            <div class="dial">
-                
-                <div class="crown-pos">
-                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="mainGoldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#FFC000;stop-opacity:1" /> 
-                                <stop offset="20%" style="stop-color:#FFFFAC;stop-opacity:1" /> 
-                                <stop offset="50%" style="stop-color:#FFD700;stop-opacity:1" /> 
-                                <stop offset="80%" style="stop-color:#FFFFE0;stop-opacity:1" /> 
-                                <stop offset="100%" style="stop-color:#E0A000;stop-opacity:1" /> 
-                            </linearGradient>
-                        </defs>
-                        <path fill-rule="evenodd" d="
-                            M 30,85 A 20,12 0 1 1 70,85 A 20,12 0 1 1 30,85 Z
-                            M 62,89 A 12,4 0 1 0 38,89 A 12,4 0 1 0 62,89 Z
-                        " fill="url(#mainGoldGradient)" />
-                        <circle cx="50" cy="10" r="5.5" fill="url(#mainGoldGradient)" />
-                        <path d="M 49,15 L 46,78 L 54,78 L 51,15 Z" fill="url(#mainGoldGradient)" />
-                        <circle cx="32" cy="18" r="5" fill="url(#mainGoldGradient)" />
-                        <path d="M 32,22 L 38,77 L 46,77 L 33,21 Z" fill="url(#mainGoldGradient)" />
-                        <circle cx="68" cy="18" r="5" fill="url(#mainGoldGradient)" />
-                        <path d="M 68,22 L 54,77 L 62,77 L 67,21 Z" fill="url(#mainGoldGradient)" />
-                        <circle cx="14" cy="30" r="4.5" fill="url(#mainGoldGradient)" />
-                        <path d="M 15,32 L 38,82 L 30,82 L 13,31 Z" fill="url(#mainGoldGradient)" />
-                        <circle cx="86" cy="30" r="4.5" fill="url(#mainGoldGradient)" />
-                        <path d="M 85,32 L 62,82 L 70,82 L 87,31 Z" fill="url(#mainGoldGradient)" />
-                    </svg>
-                </div>
+<audio id="bgMusic" loop>
+    <source src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Boccherini_-_Minuet_from_String_Quintet_in_E_Major.ogg" type="audio/ogg">
+</audio>
 
-                <div class="text-top">
-                    <div class="text-brand">MWL</div>
-                    <div class="text-model">CHONGKOLNEE  KAEWSOD</div>
-                </div>
-                
-                <div class="text-bottom">
-                    <div class="text-cert">WISHING YOU A VERY HAPPY<br/>VALENTINE’S DAY 2026</div>
-                </div>
+<div class="music-control" id="musicToggle">
+    <svg class="music-icon" id="musicIcon" viewBox="0 0 24 24">
+        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+    </svg>
+    <span id="musicText">Music: Off</span>
+</div>
 
-                <div id="markers-container"></div>
-
-                <div class="hand hour-hand" id="hour">
-                    <div class="hand-tail"></div>
-                </div>
-                <div class="hand minute-hand" id="minute">
-                    <div class="hand-tail"></div>
-                </div>
-                
-                <div class="hand second-hand" id="second"></div>
-                <div class="pivot"></div>
-
+<div class="watch-case">
+    <div class="bezel">
+        <div class="dial">
+              
+            <div class="crown-pos">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="mainGoldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#FFC000;stop-opacity:1" /> 
+                            <stop offset="20%" style="stop-color:#FFFFAC;stop-opacity:1" /> 
+                            <stop offset="50%" style="stop-color:#FFD700;stop-opacity:1" /> 
+                            <stop offset="80%" style="stop-color:#FFFFE0;stop-opacity:1" /> 
+                            <stop offset="100%" style="stop-color:#E0A000;stop-opacity:1" /> 
+                        </linearGradient>
+                    </defs>
+                    <path fill-rule="evenodd" d="M 30,85 A 20,12 0 1 1 70,85 A 20,12 0 1 1 30,85 Z M 62,89 A 12,4 0 1 0 38,89 A 12,4 0 1 0 62,89 Z" fill="url(#mainGoldGradient)" />
+                    <circle cx="50" cy="10" r="5.5" fill="url(#mainGoldGradient)" />
+                    <path d="M 49,15 L 46,78 L 54,78 L 51,15 Z" fill="url(#mainGoldGradient)" />
+                    <circle cx="32" cy="18" r="5" fill="url(#mainGoldGradient)" />
+                    <path d="M 32,22 L 38,77 L 46,77 L 33,21 Z" fill="url(#mainGoldGradient)" />
+                    <circle cx="68" cy="18" r="5" fill="url(#mainGoldGradient)" />
+                    <path d="M 68,22 L 54,77 L 62,77 L 67,21 Z" fill="url(#mainGoldGradient)" />
+                    <circle cx="14" cy="30" r="4.5" fill="url(#mainGoldGradient)" />
+                    <path d="M 15,32 L 38,82 L 30,82 L 13,31 Z" fill="url(#mainGoldGradient)" />
+                    <circle cx="86" cy="30" r="4.5" fill="url(#mainGoldGradient)" />
+                    <path d="M 85,32 L 62,82 L 70,82 L 87,31 Z" fill="url(#mainGoldGradient)" />
+                </svg>
             </div>
+
+            <div class="text-top">
+                <div class="text-brand">MWL</div>
+                <div class="text-model">CHONGKOLNEE  KAEWSOD</div>
+            </div>
+              
+            <div class="text-bottom">
+                <div class="text-cert">WISHING YOU A VERY HAPPY<br/>VALENTINE'S DAY 2026</div>
+            </div>
+
+            <div id="markers-container"></div>
+
+            <div class="hand hour-hand" id="hour">
+                <div class="hand-tail"></div>
+            </div>
+            <div class="hand minute-hand" id="minute">
+                <div class="hand-tail"></div>
+            </div>
+              
+            <div class="hand second-hand" id="second"></div>
+            <div class="pivot"></div>
+
         </div>
     </div>
 </div>
 
-<div class="paper-note">
-    <div class="paper-text">
-Dearest Auntie,<br/><br/>
+<div class="book-scene">
+    <div class="book">
+        <div class="book-inside-right">
+            <div class="book-text">
+                <p class="book-intro">To Our Beloved Auntie โ‘ค๏ธํ</p>
+                <h2>Happy Valentineโ«้s Day 2026</h2>
+                <p class="book-signature">Made with Loveโ«ิ Pon & Tony</p>
+            </div>
+        </div>
 
-Each word on this dial was chosen with special meaning. <br/>-<strong>MWL</strong> signifies <em> '<u> Made with Love </u>' </em> (named by Nong Pon himself). <br/>-<strong>CHONGKOLNEE KAEWSOD </strong> is here to tell you how much we love and respect you. Thank you for your kindness and the unconditional love you always give us. <br/>-<strong>WISHING YOU A VERY HAPPY VALENTINE’S DAY 2026</strong> is our warmest wish, straight from our hearts to yours. <br/>-<strong>HOME MADE</strong> reminds you that we made this gift with our own hands and hearts. We started making it during our New Year break at home, which is the happiest place in the world when we are all together. <br/><br/>We crafted this watch with just one simple goal: to bring joy to the one we love.
-
-    </div>
-    <div class="signature">
-        — PON & TONY
+        <div class="book-cover" id="cover">
+            <div class="face front">
+                <svg class="large-crown" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="bookCrownGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#FFC000;stop-opacity:1" /> 
+                            <stop offset="20%" style="stop-color:#FFFFAC;stop-opacity:1" /> 
+                            <stop offset="50%" style="stop-color:#FFD700;stop-opacity:1" /> 
+                            <stop offset="80%" style="stop-color:#FFFFE0;stop-opacity:1" /> 
+                            <stop offset="100%" style="stop-color:#E0A000;stop-opacity:1" /> 
+                        </linearGradient>
+                    </defs>
+                    <path fill-rule="evenodd" d="M 30,85 A 20,12 0 1 1 70,85 A 20,12 0 1 1 30,85 Z M 62,89 A 12,4 0 1 0 38,89 A 12,4 0 1 0 62,89 Z" fill="url(#bookCrownGrad)" />
+                    <circle cx="50" cy="10" r="5.5" fill="url(#bookCrownGrad)" />
+                    <path d="M 49,15 L 46,78 L 54,78 L 51,15 Z" fill="url(#bookCrownGrad)" />
+                    <circle cx="32" cy="18" r="5" fill="url(#bookCrownGrad)" />
+                    <path d="M 32,22 L 38,77 L 46,77 L 33,21 Z" fill="url(#bookCrownGrad)" />
+                    <circle cx="68" cy="18" r="5" fill="url(#bookCrownGrad)" />
+                    <path d="M 68,22 L 54,77 L 62,77 L 67,21 Z" fill="url(#bookCrownGrad)" />
+                    <circle cx="14" cy="30" r="4.5" fill="url(#bookCrownGrad)" />
+                    <path d="M 15,32 L 38,82 L 30,82 L 13,31 Z" fill="url(#bookCrownGrad)" />
+                    <circle cx="86" cy="30" r="4.5" fill="url(#bookCrownGrad)" />
+                    <path d="M 85,32 L 62,82 L 70,82 L 87,31 Z" fill="url(#bookCrownGrad)" />
+                </svg>
+            </div>
+            <div class="face back"></div>
+        </div>
     </div>
 </div>
 
 <script>
+    /* --- AUDIO LOGIC --- */
+    const bgMusic = document.getElementById('bgMusic');
+    const musicToggle = document.getElementById('musicToggle');
+    const musicText = document.getElementById('musicText');
+    let isPlaying = false;
+
+    // Function to safely play music via user interaction
+    const playMusicSafe = () => {
+        if (!isPlaying) {
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                musicText.innerText = "Music: On";
+                // Once it starts, we don't need to try starting it again on every click
+                // But we leave the toggle button functional
+            }).catch(e => {
+                console.log("Audio play blocked until further interaction", e);
+            });
+        }
+    };
+
+    const pauseAudio = () => {
+        bgMusic.pause();
+        isPlaying = false;
+        musicText.innerText = "Music: Off";
+    };
+
+    // Toggle Button Logic
+    musicToggle.addEventListener('click', (e) => {
+        e.stopPropagation(); 
+        if (isPlaying) {
+            pauseAudio();
+        } else {
+            playMusicSafe();
+        }
+    });
+
+    /* --- WATCH JS --- */
     const markersContainer = document.getElementById('markers-container');
     const radiusMinute = 138;
     const radiusHour = 115;
 
+    // Crown SVG string (reused for tiny crown)
     const crownSVG = `
         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -481,10 +681,7 @@ Each word on this dial was chosen with special meaning. <br/>-<strong>MWL</stron
                     <stop offset="100%" style="stop-color:#E0A000;stop-opacity:1" />
                 </linearGradient>
             </defs>
-            <path fill-rule="evenodd" d="
-                M 30,85 A 20,12 0 1 1 70,85 A 20,12 0 1 1 30,85 Z
-                M 62,89 A 12,4 0 1 0 38,89 A 12,4 0 1 0 62,89 Z
-            " fill="url(#tinyGoldGrad)" />
+            <path fill-rule="evenodd" d="M 30,85 A 20,12 0 1 1 70,85 A 20,12 0 1 1 30,85 Z M 62,89 A 12,4 0 1 0 38,89 A 12,4 0 1 0 62,89 Z" fill="url(#tinyGoldGrad)" />
             <circle cx="50" cy="10" r="6" fill="url(#tinyGoldGrad)" />
             <path d="M 49,15 L 46,78 L 54,78 L 51,15 Z" fill="url(#tinyGoldGrad)" />
             <circle cx="32" cy="18" r="6" fill="url(#tinyGoldGrad)" />
@@ -499,6 +696,7 @@ Each word on this dial was chosen with special meaning. <br/>-<strong>MWL</stron
     `;
 
     for (let i = 0; i < 60; i++) {
+        // SWISS MADE / HOME
         if (i === 29 || i === 31) {
             const angle = i * 6;
             const rad = (angle - 90) * (Math.PI / 180);
@@ -514,20 +712,19 @@ Each word on this dial was chosen with special meaning. <br/>-<strong>MWL</stron
             continue;
         }
 
+        // Date Window at 3 o'clock
         if (i === 15) {
             const angle = i * 6;
             const rad = (angle - 90) * (Math.PI / 180);
             const dateRadius = radiusHour - 8; 
             const xDate = 145 + dateRadius * Math.cos(rad);
             const yDate = 145 + dateRadius * Math.sin(rad);
-
             const dateWindow = document.createElement('div');
             dateWindow.id = 'date-window'; 
             dateWindow.className = 'date-window-style'; 
             dateWindow.style.left = xDate + 'px';
             dateWindow.style.top = yDate + 'px';
             dateWindow.style.transform = `translate(-50%, -50%) rotate(${angle - 90}deg)`;
-
             markersContainer.appendChild(dateWindow);
             continue; 
         }
@@ -537,6 +734,7 @@ Each word on this dial was chosen with special meaning. <br/>-<strong>MWL</stron
         const xOuter = 145 + radiusMinute * Math.cos(rad);
         const yOuter = 145 + radiusMinute * Math.sin(rad);
 
+        // 12 o'clock marker
         if (i === 0) {
             const square = document.createElement('div');
             square.className = 'minute-square';
@@ -547,6 +745,7 @@ Each word on this dial was chosen with special meaning. <br/>-<strong>MWL</stron
             continue; 
         }
 
+        // Hour Markers
         if (i % 5 === 0) {
             const marker = document.createElement('div');
             marker.className = 'marker';
@@ -564,6 +763,7 @@ Each word on this dial was chosen with special meaning. <br/>-<strong>MWL</stron
             marker.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
             markersContainer.appendChild(marker);
 
+            // Tiny crown at 6 o'clock
             if (i === 30) {
                 const crownRadius = radiusMinute - 7;
                 const xCrown = 145 + crownRadius * Math.cos(rad);
@@ -584,6 +784,7 @@ Each word on this dial was chosen with special meaning. <br/>-<strong>MWL</stron
                 markersContainer.appendChild(square);
             }
         } else {
+            // Minute ticks
             const tick = document.createElement('div');
             tick.className = 'minute-tick';
             tick.style.left = xOuter + 'px';
@@ -600,7 +801,7 @@ Each word on this dial was chosen with special meaning. <br/>-<strong>MWL</stron
         const minutes = now.getMinutes();
         const hours = now.getHours();
         const dateNum = now.getDate();
-         
+          
         const dateWindow = document.getElementById('date-window');
         if (dateWindow) {
             dateWindow.innerText = dateNum;
@@ -622,7 +823,7 @@ Each word on this dial was chosen with special meaning. <br/>-<strong>MWL</stron
         let shadowYH = shadowDistance * -Math.cos(radH);
 
         document.getElementById('second').style.transform = `rotate(${secondsDeg}deg)`;
-         
+          
         const minuteHand = document.getElementById('minute');
         minuteHand.style.transform = `rotate(${minutesDeg}deg)`;
         minuteHand.style.filter = `drop-shadow(${shadowXM.toFixed(2)}px ${shadowYM.toFixed(2)}px 2px rgba(0,0,0,0.3))`;
@@ -633,8 +834,76 @@ Each word on this dial was chosen with special meaning. <br/>-<strong>MWL</stron
 
         requestAnimationFrame(updateClock);
     }
-     
     requestAnimationFrame(updateClock);
+
+
+    /* --- BOOK INTERACTION JS --- */
+    const cover = document.getElementById('cover');
+    let isDragging = false;
+    let startX = 0;
+    let currentRotation = 0;
+    
+    // 1. Simple Click to Toggle
+    cover.addEventListener('click', () => {
+        if(isDragging) return; 
+        
+        // TRIGGER MUSIC ON OPEN/INTERACTION
+        playMusicSafe();
+
+        if (currentRotation <= -90) {
+            currentRotation = 0;
+            cover.style.transform = `rotateY(0deg)`;
+        } else {
+            currentRotation = -180;
+            cover.style.transform = `rotateY(-180deg)`;
+        }
+    });
+
+    // 2. Drag Logic
+    const startDrag = (x) => {
+        isDragging = true;
+        startX = x;
+        cover.style.transition = 'none'; 
+        
+        // TRIGGER MUSIC ON DRAG START
+        playMusicSafe();
+    };
+
+    const moveDrag = (x) => {
+        if (!isDragging) return;
+        const diff = x - startX; 
+        let rotationChange = (diff / 300) * 180;
+        let base = currentRotation === -180 ? -180 : 0;
+        let tempRot = base + rotationChange;
+        if (tempRot > 0) tempRot = 0;
+        if (tempRot < -180) tempRot = -180;
+        cover.style.transform = `rotateY(${tempRot}deg)`;
+    };
+
+    const endDrag = (x) => {
+        if (!isDragging) return;
+        setTimeout(() => { isDragging = false; }, 50);
+        cover.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
+        const diff = x - startX;
+        let rotationChange = (diff / 300) * 180;
+        let base = currentRotation === -180 ? -180 : 0;
+        let actualRot = base + rotationChange;
+        if (actualRot < -90) {
+            currentRotation = -180;
+            cover.style.transform = `rotateY(-180deg)`;
+        } else {
+            currentRotation = 0;
+            cover.style.transform = `rotateY(0deg)`;
+        }
+    };
+
+    cover.addEventListener('mousedown', (e) => startDrag(e.clientX));
+    window.addEventListener('mousemove', (e) => moveDrag(e.clientX));
+    window.addEventListener('mouseup', (e) => endDrag(e.clientX));
+    cover.addEventListener('touchstart', (e) => startDrag(e.touches[0].clientX));
+    window.addEventListener('touchmove', (e) => moveDrag(e.touches[0].clientX));
+    window.addEventListener('touchend', (e) => endDrag(e.changedTouches[0].clientX));
+
 </script>
 
 </body>
