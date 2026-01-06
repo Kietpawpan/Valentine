@@ -8,50 +8,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Kufam:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
-<title>Valentine Watch & Book</title>
+<title>Valentine Watch & Expanded Book</title>
 <style>
     body {
         display: flex;
-        flex-direction: column; /* Stack vertically */
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         min-height: 100vh;
         background-color: #f0f0f0;
         margin: 0;
         font-family: 'Arial', sans-serif;
-        gap: 50px; /* Space between watch and book */
+        gap: 60px;
         padding: 20px;
         box-sizing: border-box;
-    }
-
-    /* --- MUSIC CONTROL CSS --- */
-    .music-control {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 100;
-        background: rgba(255, 255, 255, 0.8);
-        border: 1px solid #ccc;
-        border-radius: 20px;
-        padding: 8px 15px;
-        cursor: pointer;
-        font-family: 'Atkinson Hyperlegible Mono', monospace;
-        font-size: 12px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        transition: all 0.3s ease;
-    }
-    .music-control:hover {
-        background: white;
-        transform: scale(1.05);
-    }
-    .music-icon {
-        width: 12px;
-        height: 12px;
-        fill: #333;
     }
 
     /* --- WATCH CSS --- */
@@ -395,12 +367,12 @@
         border-radius: 50%;
     }
 
-    /* --- BOOK CSS --- */
+    /* --- REAL BOOK CSS --- */
     .book-scene {
-        width: 260px;
-        height: 180px;
-        perspective: 1500px; /* Essential for 3D effect */
-        flex-shrink: 0;
+        width: 320px;
+        height: 240px;
+        perspective: 1500px;
+        position: relative;
     }
 
     .book {
@@ -410,114 +382,93 @@
         transform-style: preserve-3d;
     }
 
-    .book-cover {
+    /* The individual leaves (pages that flip) */
+    .leaf {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        transform-origin: left; /* Hinge on the left */
+        transform-origin: left;
         transform-style: preserve-3d;
-        transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-        z-index: 20;
-        cursor: pointer; /* Indicates interactivity */
+        transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
+        cursor: pointer;
     }
 
+    /* Common Face Styles */
     .face {
         position: absolute;
         width: 100%;
         height: 100%;
-        backface-visibility: hidden; /* Hide back when facing away */
+        backface-visibility: hidden;
         border-radius: 2px 6px 6px 2px;
-        box-shadow: 2px 5px 10px rgba(0,0,0,0.25);
+        box-shadow: inset 3px 0px 20px rgba(0,0,0,0.1); /* Paper curvature shadow */
     }
 
-    /* Front of the cover (Green + Crown) */
-    .front {
-        /* Rolex Green */
+    /* Fronts of pages (Right Side Content) */
+    .face.front {
+        background-color: #fcfbf7;
+        z-index: 2;
+        border-left: 1px solid rgba(0,0,0,0.1);
+    }
+
+    /* Backs of pages (Left Side Content when flipped) */
+    .face.back {
+        background-color: #fcfbf7;
+        transform: rotateY(180deg);
+        z-index: 1;
+        box-shadow: inset -3px 0px 20px rgba(0,0,0,0.1);
+        border-right: 1px solid rgba(0,0,0,0.1);
+    }
+
+    /* Special: Cover Front */
+    .cover-front {
         background-color: #006039;
-        /* Leather Texture Effect */
         background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 4px);
         display: flex;
         justify-content: center;
         align-items: center;
-        z-index: 2;
-        /* Gold trim */
         border: 1px solid #004529;
-        border-left: 4px solid #00301d; /* Spine */
+        border-left: 4px solid #00301d;
     }
 
-    /* Back of the cover (Inside Left) */
-    .back {
-        background-color: #fcfbf7; /* Paper */
-        transform: rotateY(180deg);
-        border-right: 4px solid #ddd;
-    }
-
-    /* The Inside Right Page (Stationary) */
-    .book-inside-right {
+    /* Page 15 (Base - Final End Paper) */
+    .page-base {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: #fcfbf7; /* Paper */
+        background-color: #fcfbf7;
         border-radius: 2px 6px 6px 2px;
-        z-index: 10;
+        box-shadow: inset 10px 0 15px rgba(0,0,0,0.05), 5px 5px 15px rgba(0,0,0,0.2);
+        z-index: 1; /* Lowest */
+    }
+
+    /* Content Styling */
+    .content-container {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        box-shadow: inset 10px 0 15px rgba(0,0,0,0.05); /* Shadow near spine */
-        padding: 25px 20px;
+        height: 100%;
+        padding: 25px;
         box-sizing: border-box;
-        border: 1px solid #e0e0e0;
-        border-left: none;
-    }
-
-    .book-text {
         text-align: center;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
     }
 
-    /* General Text Styling inside book */
-    .book-text p, .book-text h2 {
-        font-family: 'Playfair Display', serif;
-        margin: 0;
-        color: #444;
-    }
+    .text-gold { color: #C59208; font-family: 'Playfair Display', serif; font-weight: 700; }
+    .text-body { font-family: 'Playfair Display', serif; color: #444; margin: 8px 0; font-size: 14px; line-height: 1.5; }
+    .text-script { font-family: 'Great Vibes', cursive; color: #666; font-size: 24px; margin-top:10px; }
+    .page-number { position: absolute; bottom: 10px; right: 20px; font-size: 10px; color: #999; font-family: sans-serif; }
+    .page-number.left { left: 20px; right: auto; }
+
+    /* Specific typography tweaks */
+    .mwl-title { font-size: 40px; margin-bottom: 5px; letter-spacing: 2px; border-bottom: 2px solid #C59208; padding-bottom: 5px; }
+    .headline-sm { font-size: 18px; text-transform:uppercase; border-bottom:1px solid #C59208; padding-bottom:5px; margin-bottom:10px; }
+    .large-crown { width: 100px; height: 100px; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3)); }
+    .copyright-text { font-size: 10px; color: #888; position: absolute; bottom: 20px; width: 100%; text-align: center; font-family: 'Arial', sans-serif; }
     
-    /* New Intro Line */
-    .book-intro {
-         font-size: 16px;
-         font-weight: 600;
-         color: #333 !important;
-    }
-
-    /* Main Header */
-    .book-text h2 {
-        color: #C59208 !important; /* Gold */
-        font-size: 22px;
-        letter-spacing: 0.5px;
-        font-weight: 700;
-    }
-
-    /* Signature */
-    .book-signature {
-        font-size: 15px;
-        font-style: italic;
-        color: #666 !important;
-    }
-
-    /* Large Crown Styling */
-    .large-crown {
-        width: 90px;
-        height: 90px;
-        filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));
-    }
-
 </style>
 </head>
 <body>
@@ -525,7 +476,6 @@
 <div class="watch-case">
     <div class="bezel">
         <div class="dial">
-              
             <div class="crown-pos">
                 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <defs>
@@ -550,44 +500,155 @@
                     <path d="M 85,32 L 62,82 L 70,82 L 87,31 Z" fill="url(#mainGoldGradient)" />
                 </svg>
             </div>
-
             <div class="text-top">
                 <div class="text-brand">MWL</div>
                 <div class="text-model">CHONGKOLNEE  KAEWSOD</div>
             </div>
-              
             <div class="text-bottom">
                 <div class="text-cert">WISHING YOU A VERY HAPPY<br/>VALENTINE'S DAY 2026</div>
             </div>
-
             <div id="markers-container"></div>
-
-            <div class="hand hour-hand" id="hour">
-                <div class="hand-tail"></div>
-            </div>
-            <div class="hand minute-hand" id="minute">
-                <div class="hand-tail"></div>
-            </div>
-              
+            <div class="hand hour-hand" id="hour"><div class="hand-tail"></div></div>
+            <div class="hand minute-hand" id="minute"><div class="hand-tail"></div></div>
             <div class="hand second-hand" id="second"></div>
             <div class="pivot"></div>
-
         </div>
     </div>
 </div>
 
-<div class="book-scene">
+<div class="book-scene" id="bookScene">
     <div class="book">
-        <div class="book-inside-right">
-            <div class="book-text">
-                <p class="book-intro">To Our Beloved Auntie &#10084;</p>
-                <h2>Happy Valentine's Day 2026</h2>
-                <p class="book-signature">Made with Love&mdash;Pon & Tony</p>
+        
+        <div class="page-base">
+             <div class="content-container">
+  
+                 <div class="page-number">15</div>
             </div>
         </div>
 
-        <div class="book-cover" id="cover">
+        <div class="leaf" id="leaf7" style="z-index: 10;">
             <div class="face front">
+                <div class="content-container">
+                    <h2 class="text-gold headline-sm">DATE</h2>
+                    <p class="text-body">means we love you everyday.</p>
+                    <div style="font-size:24px; color:#C59208; margin-top:15px;">&#8986;</div>
+                    <div class="page-number">13</div>
+                </div>
+            </div>
+            <div class="face back">
+                <div class="content-container">
+
+              <p class="copyright-text">Copyright &copy; 2026 Pon & Tony Kietpawpan<br>All rights reserved.</p>
+
+                    <div class="page-number left">14</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="leaf" id="leaf6" style="z-index: 20;">
+            <div class="face front">
+                <div class="content-container">
+                    <h2 class="text-gold headline-sm">The Golden Crown</h2>
+                    <p class="text-body">implies you are our family’s beloved Queen.</p>
+                    <div style="font-size:24px; color:#C59208; margin-top:15px;">&#9813;</div>
+                    <div class="page-number">11</div>
+                </div>
+            </div>
+            <div class="face back">
+                <div class="page-number left">12</div>
+            </div>
+        </div>
+
+        <div class="leaf" id="leaf5" style="z-index: 30;">
+             <div class="face front">
+                <div class="content-container">
+                    <h2 class="text-gold headline-sm">Home Made</h2>
+                    <p class="text-body">reminds you that we made this gift with our own hands and hearts. We started making it during our New Year break at home, which is the happiest place in the world when we are all together. </p>
+                    <div class="page-number">9</div>
+                </div>
+            </div>
+            <div class="face back">
+                 <div class="page-number left">10</div>
+            </div>
+        </div>
+
+        <div class="leaf" id="leaf4" style="z-index: 40;">
+            <div class="face front">
+                <div class="content-container">
+                    <h2 class="text-gold headline-sm">WISHING YOU A VERY HAPPY VALENTINE’S DAY</h2>
+                    <p class="text-body"> is our warmest wish, straight from our hearts to yours. </p>
+                    <div class="page-number">7</div>
+                </div>
+            </div>
+            <div class="face back">
+                <div class="content-container">
+                    <div class="page-number left">8</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="leaf" id="leaf3" style="z-index: 50;">
+            <div class="face front">
+                <div class="content-container">
+                    <h2 class="text-gold headline-sm">CHONGKOLNEE  KAEWSOD</h2>
+                    <p class="text-body"> is here to tell you how much we love and respect you. Thank you for your kindness and the unconditional love you always give us. </p>
+                    <div style="font-size:20px; color:#C59208; margin-top:15px;">&#10084;</div>
+                    <div class="page-number">5</div>
+                </div>
+            </div>
+            <div class="face back">
+                <div class="page-number left">6</div>
+            </div>
+        </div>
+
+        <div class="leaf" id="leaf2" style="z-index: 60;">
+            <div class="face front">
+                <div class="content-container">
+                    <h2 class="text-gold mwl-title">MWL</h2>
+                    <p class="text-body" style="font-size:16px;">signifies<br><strong>Made with Love</strong></p>
+                    <p class="text-body" style="font-size:13px; font-style:italic;">(named by Nong Pon himself)</p>
+                    <div class="page-number">3</div>
+                </div>
+            </div>
+            <div class="face back">
+                <div class="page-number left">4</div>
+            </div>
+        </div>
+
+
+<!--Dearest Auntie,
+
+Each word on this dial was chosen with special meaning.
+-MWL signifies ' Made with Love ' (named by Nong Pon himself).
+-CHONGKOLNEE KAEWSOD is here to tell you how much we love and respect you. Thank you for your kindness and the unconditional love you always give us.
+-WISHING YOU A VERY HAPPY VALENTINE'S DAY 2026 is our warmest wish, straight from our hearts to yours.
+-HOME MADE reminds you that we made this gift with our own hands and hearts. We started making it during our New Year break at home, which is the happiest place in the world when we are all together.
+
+We crafted this watch with just one simple goal: to bring joy to the one we love-->
+
+
+
+        <div class="leaf" id="leaf1" style="z-index: 70;">
+            <div class="face front">
+                <div class="content-container">
+                    <p class="text-body" style="font-weight:600; font-size:16px;">To Auntie Aoi</p>
+                    <h2 class="text-gold" style="font-size:24px;">Happy Valentine's<br>Day 2026</h2>
+                    <p class="text-script">Pon & Tony</p>
+                    <div class="page-number">1</div>
+                </div>
+            </div>
+            <div class="face back">
+
+ <div class="content-container">
+
+              <p class="copyright-text">Each word on this dial was chosen with special meaning.</p></div>
+
+                <div class="page-number left">2</div>
+            </div>
+        </div>
+
+        <div class="leaf" id="cover" style="z-index: 80;">
+            <div class="face cover-front">
                 <svg class="large-crown" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <defs>
                         <linearGradient id="bookCrownGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -613,138 +674,59 @@
             </div>
             <div class="face back"></div>
         </div>
+
     </div>
 </div>
 
 <script>
-
     /* --- WATCH JS --- */
     const markersContainer = document.getElementById('markers-container');
     const radiusMinute = 138;
     const radiusHour = 115;
-
-    // Crown SVG string (reused for tiny crown)
-    const crownSVG = `
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <linearGradient id="tinyGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#FFC000;stop-opacity:1" />
-                    <stop offset="20%" style="stop-color:#FFFFAC;stop-opacity:1" />
-                    <stop offset="50%" style="stop-color:#FFD700;stop-opacity:1" />
-                    <stop offset="80%" style="stop-color:#FFFFE0;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#E0A000;stop-opacity:1" />
-                </linearGradient>
-            </defs>
-            <path fill-rule="evenodd" d="M 30,85 A 20,12 0 1 1 70,85 A 20,12 0 1 1 30,85 Z M 62,89 A 12,4 0 1 0 38,89 A 12,4 0 1 0 62,89 Z" fill="url(#tinyGoldGrad)" />
-            <circle cx="50" cy="10" r="6" fill="url(#tinyGoldGrad)" />
-            <path d="M 49,15 L 46,78 L 54,78 L 51,15 Z" fill="url(#tinyGoldGrad)" />
-            <circle cx="32" cy="18" r="6" fill="url(#tinyGoldGrad)" />
-            <path d="M 32,22 L 38,77 L 46,77 L 33,21 Z" fill="url(#tinyGoldGrad)" />
-            <circle cx="68" cy="18" r="6" fill="url(#tinyGoldGrad)" />
-            <path d="M 68,22 L 54,77 L 62,77 L 67,21 Z" fill="url(#tinyGoldGrad)" />
-            <circle cx="14" cy="30" r="5" fill="url(#tinyGoldGrad)" />
-            <path d="M 15,32 L 38,82 L 30,82 L 13,31 Z" fill="url(#tinyGoldGrad)" />
-            <circle cx="86" cy="30" r="5" fill="url(#tinyGoldGrad)" />
-            <path d="M 85,32 L 62,82 L 70,82 L 87,31 Z" fill="url(#tinyGoldGrad)" />
-        </svg>
-    `;
+    const crownSVG = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="tinyGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#FFC000;stop-opacity:1" /><stop offset="20%" style="stop-color:#FFFFAC;stop-opacity:1" /><stop offset="50%" style="stop-color:#FFD700;stop-opacity:1" /><stop offset="80%" style="stop-color:#FFFFE0;stop-opacity:1" /><stop offset="100%" style="stop-color:#E0A000;stop-opacity:1" /></linearGradient></defs><path fill-rule="evenodd" d="M 30,85 A 20,12 0 1 1 70,85 A 20,12 0 1 1 30,85 Z M 62,89 A 12,4 0 1 0 38,89 A 12,4 0 1 0 62,89 Z" fill="url(#tinyGoldGrad)" /><circle cx="50" cy="10" r="6" fill="url(#tinyGoldGrad)" /><path d="M 49,15 L 46,78 L 54,78 L 51,15 Z" fill="url(#tinyGoldGrad)" /><circle cx="32" cy="18" r="6" fill="url(#tinyGoldGrad)" /><path d="M 32,22 L 38,77 L 46,77 L 33,21 Z" fill="url(#tinyGoldGrad)" /><circle cx="68" cy="18" r="6" fill="url(#tinyGoldGrad)" /><path d="M 68,22 L 54,77 L 62,77 L 67,21 Z" fill="url(#tinyGoldGrad)" /><circle cx="14" cy="30" r="5" fill="url(#tinyGoldGrad)" /><path d="M 15,32 L 38,82 L 30,82 L 13,31 Z" fill="url(#tinyGoldGrad)" /><circle cx="86" cy="30" r="5" fill="url(#tinyGoldGrad)" /><path d="M 85,32 L 62,82 L 70,82 L 87,31 Z" fill="url(#tinyGoldGrad)" /></svg>`;
 
     for (let i = 0; i < 60; i++) {
-        // SWISS MADE / HOME
         if (i === 29 || i === 31) {
-            const angle = i * 6;
-            const rad = (angle - 90) * (Math.PI / 180);
-            const x = 145 + radiusMinute * Math.cos(rad);
-            const y = 145 + radiusMinute * Math.sin(rad);
-            const txt = document.createElement('div');
-            txt.className = 'swiss-text';
+            const angle = i * 6; const rad = (angle - 90) * (Math.PI / 180);
+            const x = 145 + radiusMinute * Math.cos(rad); const y = 145 + radiusMinute * Math.sin(rad);
+            const txt = document.createElement('div'); txt.className = 'swiss-text';
             txt.innerText = i === 29 ? "MADE" : "HOME";
-            txt.style.left = x + 'px';
-            txt.style.top = y + 'px';
-            txt.style.transform = `translate(-50%, -50%) rotate(${angle - 180}deg)`; 
-            markersContainer.appendChild(txt);
-            continue;
+            txt.style.left = x + 'px'; txt.style.top = y + 'px';
+            txt.style.transform = `translate(-50%, -50%) rotate(${angle - 180}deg)`; markersContainer.appendChild(txt); continue;
         }
-
-        // Date Window at 3 o'clock
         if (i === 15) {
-            const angle = i * 6;
-            const rad = (angle - 90) * (Math.PI / 180);
-            const dateRadius = radiusHour - 8; 
-            const xDate = 145 + dateRadius * Math.cos(rad);
-            const yDate = 145 + dateRadius * Math.sin(rad);
-            const dateWindow = document.createElement('div');
-            dateWindow.id = 'date-window'; 
-            dateWindow.className = 'date-window-style'; 
-            dateWindow.style.left = xDate + 'px';
-            dateWindow.style.top = yDate + 'px';
-            dateWindow.style.transform = `translate(-50%, -50%) rotate(${angle - 90}deg)`;
-            markersContainer.appendChild(dateWindow);
-            continue; 
+            const angle = i * 6; const rad = (angle - 90) * (Math.PI / 180);
+            const dateRadius = radiusHour - 8; const xDate = 145 + dateRadius * Math.cos(rad); const yDate = 145 + dateRadius * Math.sin(rad);
+            const dateWindow = document.createElement('div'); dateWindow.id = 'date-window'; dateWindow.className = 'date-window-style';
+            dateWindow.style.left = xDate + 'px'; dateWindow.style.top = yDate + 'px';
+            dateWindow.style.transform = `translate(-50%, -50%) rotate(${angle - 90}deg)`; markersContainer.appendChild(dateWindow); continue;
         }
-
-        const angle = i * 6;
-        const rad = (angle - 90) * (Math.PI / 180);
-        const xOuter = 145 + radiusMinute * Math.cos(rad);
-        const yOuter = 145 + radiusMinute * Math.sin(rad);
-
-        // 12 o'clock marker
+        const angle = i * 6; const rad = (angle - 90) * (Math.PI / 180);
+        const xOuter = 145 + radiusMinute * Math.cos(rad); const yOuter = 145 + radiusMinute * Math.sin(rad);
         if (i === 0) {
-            const square = document.createElement('div');
-            square.className = 'minute-square';
-            square.style.left = xOuter + 'px';
-            square.style.top = yOuter + 'px';
-            square.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
-            markersContainer.appendChild(square);
-            continue; 
+            const square = document.createElement('div'); square.className = 'minute-square';
+            square.style.left = xOuter + 'px'; square.style.top = yOuter + 'px';
+            square.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`; markersContainer.appendChild(square); continue;
         }
-
-        // Hour Markers
         if (i % 5 === 0) {
-            const marker = document.createElement('div');
-            marker.className = 'marker';
-            if (i === 30 || i === 45) {
-                marker.classList.add('double');
-                const inner1 = document.createElement('div');
-                const inner2 = document.createElement('div');
-                marker.appendChild(inner1);
-                marker.appendChild(inner2);
-            }
-            const xInner = 145 + radiusHour * Math.cos(rad);
-            const yInner = 145 + radiusHour * Math.sin(rad);
-            marker.style.left = xInner + 'px';
-            marker.style.top = yInner + 'px';
-            marker.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
-            markersContainer.appendChild(marker);
-
-            // Tiny crown at 6 o'clock
+            const marker = document.createElement('div'); marker.className = 'marker';
+            if (i === 30 || i === 45) { marker.classList.add('double'); marker.innerHTML = '<div></div><div></div>'; }
+            const xInner = 145 + radiusHour * Math.cos(rad); const yInner = 145 + radiusHour * Math.sin(rad);
+            marker.style.left = xInner + 'px'; marker.style.top = yInner + 'px';
+            marker.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`; markersContainer.appendChild(marker);
             if (i === 30) {
-                const crownRadius = radiusMinute - 7;
-                const xCrown = 145 + crownRadius * Math.cos(rad);
-                const yCrown = 145 + crownRadius * Math.sin(rad);
-                const tCrown = document.createElement('div');
-                tCrown.className = 'tiny-crown';
-                tCrown.innerHTML = crownSVG;
-                tCrown.style.left = xCrown + 'px';
-                tCrown.style.top = yCrown + 'px';
-                tCrown.style.transform = `translate(-50%, -50%) rotate(0deg)`; 
-                markersContainer.appendChild(tCrown);
+                const crownRadius = radiusMinute - 7; const xCrown = 145 + crownRadius * Math.cos(rad); const yCrown = 145 + crownRadius * Math.sin(rad);
+                const tCrown = document.createElement('div'); tCrown.className = 'tiny-crown'; tCrown.innerHTML = crownSVG;
+                tCrown.style.left = xCrown + 'px'; tCrown.style.top = yCrown + 'px'; tCrown.style.transform = `translate(-50%, -50%) rotate(0deg)`; markersContainer.appendChild(tCrown);
             } else {
-                const square = document.createElement('div');
-                square.className = 'minute-square';
-                square.style.left = xOuter + 'px';
-                square.style.top = yOuter + 'px';
-                square.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
-                markersContainer.appendChild(square);
+                const square = document.createElement('div'); square.className = 'minute-square';
+                square.style.left = xOuter + 'px'; square.style.top = yOuter + 'px';
+                square.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`; markersContainer.appendChild(square);
             }
         } else {
-            // Minute ticks
-            const tick = document.createElement('div');
-            tick.className = 'minute-tick';
-            tick.style.left = xOuter + 'px';
-            tick.style.top = yOuter + 'px';
-            tick.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
-            markersContainer.appendChild(tick);
+            const tick = document.createElement('div'); tick.className = 'minute-tick';
+            tick.style.left = xOuter + 'px'; tick.style.top = yOuter + 'px';
+            tick.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`; markersContainer.appendChild(tick);
         }
     }
 
@@ -755,107 +737,131 @@
         const minutes = now.getMinutes();
         const hours = now.getHours();
         const dateNum = now.getDate();
-          
         const dateWindow = document.getElementById('date-window');
-        if (dateWindow) {
-            dateWindow.innerText = dateNum;
-        }
-
+        if (dateWindow) dateWindow.innerText = dateNum;
         const smoothSeconds = seconds + (milliseconds / 1000);
         const secondsDeg = (smoothSeconds / 60) * 360;
         const minutesDeg = ((minutes / 60) * 360) + ((smoothSeconds / 60) * 6);
         const hoursDeg = ((hours / 12) * 360) + ((minutes / 60) * 30);
-
-        const shadowDistance = 3; 
-
-        let radM = (minutesDeg + 180) * (Math.PI / 180);
-        let shadowXM = shadowDistance * Math.sin(radM);
-        let shadowYM = shadowDistance * -Math.cos(radM);
-
-        let radH = (hoursDeg + 180) * (Math.PI / 180);
-        let shadowXH = shadowDistance * Math.sin(radH);
-        let shadowYH = shadowDistance * -Math.cos(radH);
-
+        const shadowDistance = 3;
+        let radM = (minutesDeg + 180) * (Math.PI / 180); let shadowXM = shadowDistance * Math.sin(radM); let shadowYM = shadowDistance * -Math.cos(radM);
+        let radH = (hoursDeg + 180) * (Math.PI / 180); let shadowXH = shadowDistance * Math.sin(radH); let shadowYH = shadowDistance * -Math.cos(radH);
         document.getElementById('second').style.transform = `rotate(${secondsDeg}deg)`;
-          
-        const minuteHand = document.getElementById('minute');
-        minuteHand.style.transform = `rotate(${minutesDeg}deg)`;
+        const minuteHand = document.getElementById('minute'); minuteHand.style.transform = `rotate(${minutesDeg}deg)`;
         minuteHand.style.filter = `drop-shadow(${shadowXM.toFixed(2)}px ${shadowYM.toFixed(2)}px 2px rgba(0,0,0,0.3))`;
-
-        const hourHand = document.getElementById('hour');
-        hourHand.style.transform = `rotate(${hoursDeg}deg)`;
+        const hourHand = document.getElementById('hour'); hourHand.style.transform = `rotate(${hoursDeg}deg)`;
         hourHand.style.filter = `drop-shadow(${shadowXH.toFixed(2)}px ${shadowYH.toFixed(2)}px 2px rgba(0,0,0,0.3))`;
-
         requestAnimationFrame(updateClock);
     }
     requestAnimationFrame(updateClock);
 
-
-    /* --- BOOK INTERACTION JS --- */
+    /* --- REAL BOOK INTERACTION JS --- */
     const cover = document.getElementById('cover');
-    let isDragging = false;
-    let startX = 0;
-    let currentRotation = 0;
+    const leaf1 = document.getElementById('leaf1');
+    const leaf2 = document.getElementById('leaf2');
+    const leaf3 = document.getElementById('leaf3');
+    const leaf4 = document.getElementById('leaf4');
+    const leaf5 = document.getElementById('leaf5');
+    const leaf6 = document.getElementById('leaf6');
+    const leaf7 = document.getElementById('leaf7');
     
-    // 1. Simple Click to Toggle
-    cover.addEventListener('click', () => {
-        if(isDragging) return; 
-        
-        // TRIGGER MUSIC ON OPEN/INTERACTION
-        playMusicSafe();
+    // States: 0=Closed, 1..8
+    let bookState = 0; 
+    const maxState = 8;
 
-        if (currentRotation <= -90) {
-            currentRotation = 0;
-            cover.style.transform = `rotateY(0deg)`;
+    function updateBook() {
+        // Reset layering stack
+        cover.style.zIndex = 80;
+        leaf1.style.zIndex = 70;
+        leaf2.style.zIndex = 60;
+        leaf3.style.zIndex = 50;
+        leaf4.style.zIndex = 40;
+        leaf5.style.zIndex = 30;
+        leaf6.style.zIndex = 20;
+        leaf7.style.zIndex = 10;
+
+        // COVER
+        if (bookState >= 1) cover.style.transform = 'rotateY(-180deg)';
+        else cover.style.transform = 'rotateY(0deg)';
+
+        // LEAF 1
+        if (bookState >= 2) {
+            leaf1.style.transform = 'rotateY(-180deg)';
+            leaf1.style.zIndex = 81; 
         } else {
-            currentRotation = -180;
-            cover.style.transform = `rotateY(-180deg)`;
+            leaf1.style.transform = 'rotateY(0deg)';
+        }
+
+        // LEAF 2
+        if (bookState >= 3) {
+            leaf2.style.transform = 'rotateY(-180deg)';
+            leaf2.style.zIndex = 82;
+        } else {
+            leaf2.style.transform = 'rotateY(0deg)';
+        }
+
+        // LEAF 3
+        if (bookState >= 4) {
+            leaf3.style.transform = 'rotateY(-180deg)';
+            leaf3.style.zIndex = 83;
+        } else {
+            leaf3.style.transform = 'rotateY(0deg)';
+        }
+
+        // LEAF 4
+        if (bookState >= 5) {
+            leaf4.style.transform = 'rotateY(-180deg)';
+            leaf4.style.zIndex = 84;
+        } else {
+            leaf4.style.transform = 'rotateY(0deg)';
+        }
+
+        // LEAF 5
+        if (bookState >= 6) {
+            leaf5.style.transform = 'rotateY(-180deg)';
+            leaf5.style.zIndex = 85;
+        } else {
+            leaf5.style.transform = 'rotateY(0deg)';
+        }
+
+        // LEAF 6
+        if (bookState >= 7) {
+            leaf6.style.transform = 'rotateY(-180deg)';
+            leaf6.style.zIndex = 86;
+        } else {
+            leaf6.style.transform = 'rotateY(0deg)';
+        }
+
+        // LEAF 7
+        if (bookState >= 8) {
+            leaf7.style.transform = 'rotateY(-180deg)';
+            leaf7.style.zIndex = 87;
+        } else {
+            leaf7.style.transform = 'rotateY(0deg)';
+        }
+    }
+
+    document.getElementById('bookScene').addEventListener('click', (e) => {
+        const rect = document.getElementById('bookScene').getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const isRightSide = x > (rect.width / 2);
+
+        if (isRightSide) {
+            if (bookState < maxState) {
+                bookState++;
+                updateBook();
+            } else {
+                bookState = 0; // Close book loop
+                updateBook();
+            }
+        } else {
+            if (bookState > 0) {
+                bookState--;
+                updateBook();
+            }
         }
     });
 
-    // 2. Drag Logic
-    const startDrag = (x) => {
-        isDragging = true;
-        startX = x;
-        cover.style.transition = 'none'; 
-    };
-
-    const moveDrag = (x) => {
-        if (!isDragging) return;
-        const diff = x - startX; 
-        let rotationChange = (diff / 300) * 180;
-        let base = currentRotation === -180 ? -180 : 0;
-        let tempRot = base + rotationChange;
-        if (tempRot > 0) tempRot = 0;
-        if (tempRot < -180) tempRot = -180;
-        cover.style.transform = `rotateY(${tempRot}deg)`;
-    };
-
-    const endDrag = (x) => {
-        if (!isDragging) return;
-        setTimeout(() => { isDragging = false; }, 50);
-        cover.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
-        const diff = x - startX;
-        let rotationChange = (diff / 300) * 180;
-        let base = currentRotation === -180 ? -180 : 0;
-        let actualRot = base + rotationChange;
-        if (actualRot < -90) {
-            currentRotation = -180;
-            cover.style.transform = `rotateY(-180deg)`;
-        } else {
-            currentRotation = 0;
-            cover.style.transform = `rotateY(0deg)`;
-        }
-    };
-
-    cover.addEventListener('mousedown', (e) => startDrag(e.clientX));
-    window.addEventListener('mousemove', (e) => moveDrag(e.clientX));
-    window.addEventListener('mouseup', (e) => endDrag(e.clientX));
-    cover.addEventListener('touchstart', (e) => startDrag(e.touches[0].clientX));
-    window.addEventListener('touchmove', (e) => moveDrag(e.touches[0].clientX));
-    window.addEventListener('touchend', (e) => endDrag(e.changedTouches[0].clientX));
-
 </script>
-
 </body>
 </html>
