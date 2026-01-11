@@ -1,470 +1,81 @@
-<!DOCTYPE html>
-<html lang="th">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>อริยสัจ ๔ โดย มนตรี แซ่โง้ว (ต้น กิตติวังโส)</title>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Thasadith:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --book-width: 400px;
-            --book-height: 550px;
-            --speed: 0.6s;
-            --primary-color: #8E402A; /* สีจีวรเข้ม */
-            --accent-color: #F1C40F;  /* สีทอง */
-            --paper-color: #fdf5e6;   /* สีครีมถนอมสายตา */
-            --text-color: #4a3b32;    /* สีน้ำตาลเข้ม */
-        }
+     <meta name="viewport" content="width=device-width, initial-scale=2">
+                <meta charset="UTF-8">
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-        body {
-            display: flex;
-            justify-content: right;
-            align-items: center;
-            height: 100vh;
-            background-color: #dcdcdc;
-            font-family: 'Sarabun', sans-serif;
-            margin: 5px 50px;
-            perspective: 1500px;
-            overflow: hidden;
-        }
+<script 	src="https://code.jquery.com/jquery-3.7.1.js" 
+		integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" 
+		crossorigin="anonymous"></script>
 
-        .book-container {
-            position: relative;
-            width: var(--book-width);
-            height: var(--book-height);
-            transform-style: preserve-3d;
-            -webkit-transform-style: preserve-3d; /* Safari Support */
-            transition: transform 0.5s;
-        }
+<script 	type="text/javascript" 
+		src="turn.min.js"></script>
 
-        .book {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
-            -webkit-transform-style: preserve-3d; /* Safari Support */
-        }
+<link 	rel="stylesheet" 
+		href="book1.css">
 
-        .page {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background-color: var(--paper-color);
-            transform-origin: left center;
-            transform-style: preserve-3d;
-            -webkit-transform-style: preserve-3d; /* Safari Support */
-            transition: transform var(--speed) cubic-bezier(0.645, 0.045, 0.355, 1);
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
-            cursor: pointer;
-            /* ป้องกันการกระพริบขณะพลิกหน้า */
-            will-change: transform; 
-        }
 
-        .page.flipped {
-            transform: rotateY(-180deg);
-            -webkit-transform: rotateY(-180deg);
-        }
+<title>Four Noble Truth</title>
+</head>
 
-        /* Front and Back of each page */
-        .front, .back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden; /* Safari Fix */
-            padding: 30px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            
-            /* KEY FIX: บังคับให้ Hardware Acceleration ทำงาน เพื่อไม่ให้ข้อความหาย */
-            transform: translateZ(0);
-            -webkit-transform: translateZ(0);
-        }
-
-        .back {
-            transform: rotateY(180deg) translateZ(0); /* รวม Fix เข้าไปใน rotate */
-            -webkit-transform: rotateY(180deg) translateZ(0);
-            border-left: 1px solid #dcd0c0;
-        }
-        
-        .front {
-             border-right: 1px solid #dcd0c0;
-        }
-
-        /* Content Styling */
-        h1, h2, h3 { 
-            color: var(--primary-color); 
-            text-align: center; 
-            font-family: 'Thasadith', sans-serif; 
-            font-weight: bold;
-            /* ป้องกันข้อความเบลอหรือหาย */
-            transform: translateZ(0);
-        }
-        
-        p { 
-            font-size: 15px;
-            line-height: 1.6; 
-            color: var(--text-color); 
-            text-align: justify; 
-            text-indent: 20px;
-            transform: translateZ(0);
-        }
-        
-        .detail-list {
-            list-style: none;
-            padding: 0;
-            font-size: 14px;
-        }
-        
-        .detail-list li {
-            margin-bottom: 12px;
-            text-align: justify;
-        }
-        
-        .detail-list strong {
-            color: var(--primary-color);
-        }
-        
-        .page-number {
-            position: absolute;
-            bottom: 15px;
-            width: 100%;
-            text-align: center;
-            font-size: 14px;
-            color: #888;
-            left: 0;
-        }
-
-        /* Cover Styles */
-        .cover-front {
-            background: var(--primary-color);
-            color: white;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            border: 3px solid #5a2a1a;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
-        }
-        .cover-front h1 { 
-            color: var(--accent-color); 
-            border-bottom: 2px solid var(--accent-color); 
-            padding-bottom: 15px; 
-            font-size: 48px;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-        }
-        .cover-front h2 { 
-            color: #ffecd1; 
-            font-size: 20px; 
-            margin-top: 5px; 
-            font-weight: normal;
-        }
-        .cover-front .author { 
-            color: #fff; 
-            margin-top: 60px; 
-            font-size: 18px; 
-            font-weight: bold;
-        }
-        .cover-front .sub-author {
-            color: #ddd;
-            font-size: 16px;
-            margin-top: 5px;
-        }
-        .cover-front .publisher { 
-            position: absolute; 
-            bottom: 30px; 
-            font-size: 16px; 
-            color: #ffecd1; 
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-
-        /* Controls */
-        .controls {
-            position: absolute;
-            margin-left:5px;
-            bottom: 110px;
-            display: flex;
-            gap: 20px;
-            z-index: 100;
-        }
-        button {
-            padding: 10px 20px;
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 16px;
-            font-family: 'Sarabun', sans-serif;
-        }
-        button:hover { background: #6e3020; }
-        
-        .chapter-title {
-            font-weight: bold;
-            margin-top: 15px;
-            border-bottom: 1px solid var(--primary-color);
-            color: var(--primary-color);
-            font-size: 20px;
-        }
-
-        .dharma-wheel {
-            font-size: 50px;
-            color: var(--accent-color);
-            margin-bottom: 20px;
-        }
-
-        /* Z-index management for 8 pages */
-        .page:nth-child(1) { z-index: 9; }
-        .page:nth-child(2) { z-index: 8; }
-        .page:nth-child(3) { z-index: 7; }
-        .page:nth-child(4) { z-index: 6; }
-        .page:nth-child(5) { z-index: 5; }
-        .page:nth-child(6) { z-index: 4; }
-        .page:nth-child(7) { z-index: 3; }
-        .page:nth-child(8) { z-index: 2; }
-
-    </style>
+<style type="text/css">
+body{
+	background:#ccc;
+}
+#magazine{
+	width:576px;
+	height:400px;
+}
+#magazine .turn-page{
+	background-color:#ccc;
+	background-size:100% 100%;
+}
+</style>
 </head>
 <body>
 
-    <div class="book-container">
-        <div class="book" id="book">
-            
-            <div class="page" id="p1">
-                <div class="front cover-front">
-                    <div class="dharma-wheel">☸</div>
-                    <h1>อริยสัจ ๔</h1>
-                    <h2>ความจริงอันประเสริฐ</h2>
-                    <br>
-                    <p class="author">มนตรี แซ่โง้ว</p>
-                    <p class="sub-author">(ต้น กิตติวังโส)</p>
-                    <div class="publisher">พระประโทณเจดีย์</div>
-                </div>
-                
-                <div class="back" style="justify-content: center; align-items: center; background-color: #f5eadd;">
-                    <div style="text-align: center;">
-                        <h3 style="color: #8E402A; font-size: 18px;">ธรรมทาน</h3>
-                        <p style="text-align: center; font-size: 14px; color: #555;">
-                            ขอมอบหนังสือเล่มนี้<br>เพื่อเป็นแสงสว่างแห่งปัญญา
-                        </p>
-                    </div>
-                </div>
-            </div>
+<div id="magazine">
+	<div style="background-image:url(pages/00.jpg);"></div>
+	<div style="background-image:url(pages/01.jpg);"></div>
+	<div style="background-image:url(pages/02.jpg);"></div>
+	<div style="background-image:url(pages/03.jpg);"></div>
+	<div style="background-image:url(pages/04.jpg);"></div>
+	<div style="background-image:url(pages/05.jpg);"></div>	<div style="background-image:url(pages/06.jpg);"></div>	<div style="background-image:url(pages/07.jpg);"></div>	<div style="background-image:url(pages/08.jpg);"></div>	<div style="background-image:url(pages/09.jpg);"></div>	<div style="background-image:url(pages/10.jpg);"></div>	<div style="background-image:url(pages/11.jpg);"></div>	<div style="background-image:url(pages/12.jpg);"></div>	<div style="background-image:url(pages/13.jpg);"></div>	<div style="background-image:url(pages/14.jpg);"></div>	<!--<div style="background-image:url(pages/15.jpg);"></div>	<div style="background-image:url(pages/16.jpg);"></div>-->	<div style="background-image:url(pages/17.jpg);"></div>
 
-            <div class="page" id="p2">
-                <div class="front">
-                    <div style="margin-top: 40px; text-align: center;">
-                        <h2 style="font-size: 28px;">อริยสัจ ๔</h2>
-                        <h3 style="font-size: 16px; color: #666; margin-top: 10px;">ความจริงอันประเสริฐ</h3>
-                    </div>
+</div>
 
-                    <div style="text-align: center; margin-top: 60px;">
-                        <p style="font-size: 16px; font-weight: bold; text-align: center; text-indent: 0;">เรียบเรียงโดย</p>
-                        <p style="font-size: 18px; text-align: center; text-indent: 0; color: var(--primary-color);">มนตรี แซ่โง้ว<br>(ต้น กิตติวังโส)</p>
-                    </div>
 
-                    <div style="margin-top: auto; margin-bottom: 30px; text-align: center;">
-                        <p style="font-size: 14px; margin-top: 5px; text-align: center; text-indent: 0; font-weight: bold;">พระประโทณเจดีย์</p>
-                        <p style="font-size: 12px; margin-top: 0; text-align: center; text-indent: 0;">จังหวัดนครปฐม</p>
-                    </div>
-                </div>
+<script type="text/javascript">
 
-                <div class="back">
-                    <h3>คำนำผู้เขียน</h3>
-                    <p>อริยสัจ ๔ คือหัวใจสำคัญของพระพุทธศาสนา เป็นความจริงอันประเสริฐ ๔ ประการที่พระพุทธองค์ทรงตรัสรู้</p>
-                    <p>ข้าพเจ้าได้รวบรวมเนื้อหานี้ เพื่อให้ผู้สนใจได้ศึกษาแนวทางในการดับทุกข์ตามหลักธรรมที่ถูกต้อง หวังเป็นอย่างยิ่งว่าจะเป็นประโยชน์แก่ผู้อ่านทุกท่าน</p>
-                    <br>
-                    <p style="text-align: right;"><em>ต้น กิตติวังโส</em></p>
-                    <div class="page-number">ก</div>
-                </div>
-            </div>
+	$(window).ready(function() {
+		$('#magazine').turn({
+							display: 'double',
+							acceleration: true,
+							gradients: !$.isTouch,
+							elevation:50,
+							when: {
+								turned: function(e, page) {
+									/*console.log('Current view: ', $(this).turn('view'));*/
+								}
+							}
+						});
+	});
+	
+	
+	$(window).bind('keydown', function(e){
+		
+		if (e.keyCode==37)
+			$('#magazine').turn('previous');
+		else if (e.keyCode==39)
+			$('#magazine').turn('next');
+			
+	});
 
-            <div class="page" id="p3">
-                <div class="front">
-                    <h3>สารบัญ</h3>
-                    <ul style="list-style: none; padding: 0; font-size: 18px; color: var(--text-color);">
-                        <li style="margin-bottom: 10px; border-bottom: 1px dotted #ccc;">๑. <strong>ทุกข์</strong> (ลักษณะแห่งทุกข์)......... ๑</li>
-                        <li style="margin-bottom: 10px; border-bottom: 1px dotted #ccc;">๒. <strong>สมุทัย</strong> (เหตุแห่งทุกข์) ......…… ๓</li>
-                        <li style="margin-bottom: 10px; border-bottom: 1px dotted #ccc;">๓. <strong>นิโรธ</strong> (ความดับทุกข์) ......…… ๕</li>
-                        <li style="margin-bottom: 10px; border-bottom: 1px dotted #ccc;">๔. <strong>มรรค</strong> (หนทางดับทุกข์) .....…. ๗</li>
-                    </ul>
-                    <div class="page-number">ข</div>
-                </div>
-                <div class="back">
-                    <h3 class="chapter-title">๑. ทุกข์ (Dukkha)</h3>
-                    <p style="margin-bottom: 10px;">ทุกข์ คือ สภาพที่ทนได้ยาก จำแนกสภาวะได้ดังนี้:</p>
-                    
-                    <ol style="padding-left: 20px; font-size: 14px; line-height: 1.5; margin-top: 0;list-style-type:thai;">
-                        <li style="margin-bottom: 8px;">
-                            <strong>ทุกข์โดยธรรมชาติ:</strong> ได้แก่ ความเกิด (ภพ ชาติ) ความแก่ (ชรา) และความตาย (มรณะ) ซึ่งเป็นกฎธรรมชาติของชีวิต
-                        </li>
-                        <li style="margin-bottom: 8px;">
-                            <strong>ทุกข์โดยความคิดและการปรุงแต่ง:</strong> ได้แก่ ความโศกเศร้า (โสกะ) ความรำพัน (ปริเทวะ) ความไม่สบายกาย (ทุกข์) ความเสียใจ (โทมนัส) และความคับแค้นใจ (อุปายาสะ)
-                        </li>
-                        <li>
-                            <strong>ทุกข์โดยปัจจัยภายนอก:</strong> ได้แก่ ความพลัดพรากจากสิ่งที่รัก ความประสบกับสิ่งที่ไม่รัก (ภัยเวร) และความผิดหวังจากสิ่งที่ปรารถนา
-                        </li>
-                    </ul>
-                    <div class="page-number">1</div>
-                </div>
-            </div>
+</script>
 
-            <div class="page" id="p4">
-                <div class="front">
-                    <h3>บทสรุปเรื่องทุกข์</h3>
-                    <p>ในโลกทั้งหลาย ไม่มีอะไรเที่ยงแท้หรือคงที่ตลอดกาลนาน สิ่งใดเกิดขึ้นแล้ว สิ่งนั้นย่อมผันแปร เสื่อมสลายไปเป็นธรรมดา (<strong>อนิจจัง</strong>) </p>
-<p>สิ่งใดไม่เที่ยง สิ่งนั้นเป็นทุกข์ ทนอยู่ในสภาพเดิมไม่ได้ (<strong>ทุกขัง</strong>)</p>
-<p> สิ่งใดเป็นทุกข์ สิ่งนั้นไม่ใช่เรา ไม่ใช่ของเรา ไม่ใช่ตัวตนของเรา บังคับบัญชาไม่ได้ (<strong>อนัตตา</strong>)</p>
-<p><strong>ทุกข์ทุกอย่าง คือ อุปาทานขันธ์ ๕ (รูป เวทนา สัญญา สังขาร วิญญาณ) ที่ปุถุชนยึดถือว่าเป็นตน เป็นของตน เป็นอัตตาของตน </strong></p>
- 
-                    <div class="page-number">2</div>
-                </div>
-                <div class="back">
-                    <h3 class="chapter-title">๒. สมุทัย (Samudaya)</h3>
-                    <p><strong>เหตุแห่งการเกิดทุกข์</strong></p>
-                    <p>ต้นเหตุคือ <strong>"ตัณหา"</strong> (ความทะยานอยาก) ๓ ประการ:</p>
-                    <ul style="padding-left: 20px;">
-                        <li><strong>กามตัณหา:</strong> อยากใน รูป รส กลิ่น เสียง สัมผัส อารมณ์ที่ใคร่</li>
-                        <li><strong>ภวตัณหา:</strong> อยากมี อยากเป็นสิ่งที่ใคร่ (เช่น อยากรวย)</li>
-                        <li><strong>วิภวตัณหา:</strong> ไม่อยากมี ไม่อยากเป็นสิ่งที่ไม่ใคร่ (เช่น ไม่อยากเจ็บ)</li>
-                    </ul>
-                    <p>สมุทัยเป็นสิ่งที่ต้อง <strong>"ละ"</strong> เพื่อตัดวงจรแห่งทุกข์</p>
-                    <div class="page-number">3</div>
-                </div>
-            </div>
+</body>
+</html>
 
-            <div class="page" id="p5">
-                <div class="front">
-                    <h3>บทสรุปเรื่องสมุทัย</h3>
-                    <p style="font-size: 14px; text-indent: 15px;">ตัณหานี้ คือ ความอยากเป็น อยากได้ รวมถึงความไม่อยากเป็น ไม่อยากได้ ความจงใจเหล่านี้ เกิดขึ้นเพราะในจิตมีอวิชชา คือ ความไม่รู้อริยสัจ ๔ ทำให้มีความเห็น ความคิด การพูด การกระทำที่ไม่ถูกต้องตามคำสอนของพระพุทธองค์</p>
-                    <p style="font-size: 14px; text-indent: 15px;">ไม่ดำเนินชีวิตตามอริยมรรคอันเป็นหนทางสู่ความสุขอันประเสริฐ ไม่มีเครื่องประดับจิต คือ อินทรีย์ ๕ ได้แก่ ศรัทธา วิริยะ สติ สมาธิ และปัญญา ทำให้จิตไม่มีบริขารของสมาธิ ปัญญาจึงไม่บริสุทธิ์ ไม่อาจดับตัณหา ทิฏฐิ มานะ อวิชชา จึงเวียนว่ายตายเกิดไม่สิ้นสุด</p>
-                    <div class="page-number">4</div>
-                </div>
-                <div class="back">
-                    <h3 class="chapter-title">๓. นิโรธ (Nirodha)</h3>
-                    <p><strong>ความดับทุกข์</strong></p>
-                    <p>นิโรธ คือ ภาวะที่ตัณหาดับสิ้นไป เป็นอิสระจากกิเลส หรือ "นิพพาน" เมื่อเหตุ (สมุทัย) ดับ ผล (ทุกข์) ย่อมดับตาม</p>
-                    <p>นิโรธเป็นเป้าหมายสูงสุดในทางธรรม เป็นสภาวะที่จิตสงบเย็น ไม่เร่าร้อนด้วยไฟกิเลส เป็นสิ่งที่ต้อง <strong>"ทำให้แจ้ง"</strong></p>
-                    <div class="page-number">5</div>
-                </div>
-            </div>
-
-            <div class="page" id="p6">
-                <div class="front">
-                    <h3>บทสรุปเรื่องนิโรธ</h3>
-                    <p style="font-size: 13.5px; text-indent: 15px; margin-bottom: 5px;">นิโรธ หรือ นิพพานนี้ แบ่งเป็น ๒ ระยะ <strong>ระยะแรก</strong> คือ ยังมีชีวิตอยู่ รู้แจ้งอริยสัจ ๔ บรรลุธรรมของศาสนาพุทธแล้ว ไม่ยินดียินร้าย ไม่ปรารถนาสิ่งใด ไม่ยึดถืออะไรๆ ในโลกว่าเป็นตน เป็นของตน หรือเป็นอัตตาของตน เกิดสัญญาว่า ความดับภพ คือ นิพพาน เพราะเมื่อดับภพแล้ว ย่อมไม่มีชาติ ชรา มรณะ โสก ปริเทวะ ทุกข์ โทมนัส อุปายาสะ ความพลัดพราก ความมีภัยเวร ความผิดหวัง หลุดพ้นจากกองทุกข์ ถึงที่สุดแห่งทุกข์ </p>
-                    <p style="font-size: 13.5px; text-indent: 15px; margin-top: 0;"><strong>ส่วนระยะที่สอง</strong> คือ เมื่อมรณะแล้ว ย่อมดับขันธ์ปรินิพพาน ไม่มีอุปาทานขันธ์ ๕ คือ รูป เวทนา สัญญา สังขาร วิญญาณ อันเป็นที่รองรับบาปบุญอีกต่อไป บุญบาปย่อมไม่อาจส่งผลวิบากต่อขันธ์ ๕ ตราบนิรันดร กลายเป็นอมตะธาตุ หรืออสังขตธรรม ที่ไม่มีสภาพไตรลักษณ์อีกต่อไป</p>
-
-                    <div class="page-number">6</div>
-                </div>
-                <div class="back">
-                    <h3 class="chapter-title">๔. มรรค (Magga)</h3>
-                    <p><strong>หนทางดับทุกข์</strong> </p>
-                    <ul class="detail-list">
-                        <li><strong>๑. สัมมาทิฏฐิ:</strong> รู้แจ้งอริยสัจ ๔ ตามความเป็นจริง</li>
-                        <li><strong>๒. สัมมาสังกัปปะ:</strong> ไม่พยาบาท ไม่เบียดเบียน ไม่ติดใจในกามวัตถุ</li>
-                        <li><strong>๓. สัมมาวาจา:</strong> ไม่พูดเท็จ ไม่พูดคำหยาบ ไม่พูดส่อเสียด ไม่พูดเพ้อเจ้อ</li>
-                        <li><strong>๔. สัมมากัมมันตะ:</strong> ไม่ฆ่าสัตว์ ไม่ลักขโมย ไม่ประพฤติผิดในกาม ไม่เสพสุรา</li>
-                    </ul>
-                    <div class="page-number">7</div>
-                </div>
-            </div>
-            
-            <div class="page" id="p7">
-                <div class="front">
-                    <h3 class="chapter-title" style="margin-top: 20px;">มรรค (ต่อ)</h3>
-                    <ul class="detail-list">
-                         <li><strong>๕. สัมมาอาชีวะ:</strong> คือ ประกอบอาชีพที่สุจริต ไม่เบียดเบียนตนเองและผู้อื่น</li>
-                         <li><strong>๖. สัมมาวายามะ:</strong> คือ เพียรละอกุศลธรรมที่เกิดแล้ว ให้สูญสิ้นไป เพียรระวังอกุศลธรรมที่ยังไม่เกิด ไม่ให้บังเกิดขึ้น เพียรเจริญกุศลธรรมที่ยังไม่เกิด ให้บังเกิดขึ้น เพียรรักษากุศลธรรมที่บังเกิดแล้ว ให้คงอยู่และเจริญไพบูลย์</li>
-                         <li><strong>๗. สัมมาสติ:</strong> พิจารณาเห็นกายในกาย เวทนาในเวทนา จิตในจิต และธรรมในธรรม เกิดยถาภูตญาณทัสสนะ (เห็นไตรลักษณ์) นิพพิทา (เบื่อหน่าย) วิราคะ (คลายกำหนัด)</li>
-                         <li><strong>๘. สัมมาสมาธิ:</strong> เข้าฌาน ๑-๔ เพื่อละวิตก วิจาร ปีติ สุข จิตบริสุทธิ์ ปราศจากกิเลส อ่อน ควรแก่งาน มีอุเบกขาและสติอันบริสุทธิ์ น้อมไปเพื่อสัมมาญาณ จนถึงญาณดับกิเลสตัณหา</li>
-                    </ul>
-                    <div class="page-number">8</div>
-                </div>
-                <div class="back">
-                    <h3>บทสรุปเรื่องมรรค</h3>
-                    <p style="font-size: 14px; text-indent: 15px;">อริยมรรคมีองค์แปด คือ วิธีมองโลก วิธีคิด วิธีพูด วิธีปฏิบัติทางกาย และวิธีภาวนาทางใจ เป็นไปโดยลำดับ ให้เกิดสมาธิอันบริสุทธิ์ เพื่อให้เกิดปัญญาอันบริสุทธิ์ มองเห็นไตรลักษณ์ รู้แจ้งธรรมตามที่เป็นจริง ไม่ติดอยู่ที่นิมิตและอนุพยัญชนะ แต่เห็นทะลุถึงแก่นแท้ของสรรพสิ่งในโลกว่าไม่เที่ยง เป็นทุกข์ ไม่ใช่ตน ไม่ใช่ของตน ไม่ใช่อัตตาของตน แล้วไม่มีความอยากได้อะไรหรืออยากเป็นอะไร เห็นโลกโดยความเป็นของสูญ จิตว่างจากตัณหา ทิฏฐิ มานะ อวิชชา อาศัยในวิหารธรรมที่สงบบริสุทธิ์ มีสุญญตสมาบัติ เป็นต้น เมื่อตายไป จึงไม่มีสังขาร วิญญาณ ที่จะไปเกิดเป็นนามรูปในภพชาติต่าง ๆ อีก นิพพานก็มีด้วยเหตุนี้</p>
-                    <div class="page-number">9</div>
-                </div>
-            </div>
-
-            <div class="page" id="p8">
-                <div class="front">
-                    <h3>ปัจฉิมบท</h3>
-                    <p>การศึกษาอริยสัจ ๔ มิใช่เพียงเพื่อการจดจำ แต่เพื่อการนำไปปฏิบัติในชีวิตประจำวัน</p>
-                    <p>เมื่อเราเข้าใจความจริงว่าสิ่งทั้งหลายไม่เที่ยง เป็นทุกข์ และไม่ใช่ตัวตน เราจะวางใจเป็นกลางได้มากขึ้น ทุกข์จะน้อยลง และปัญญาจะเจริญขึ้น</p>
-                    <div class="page-number">10</div>
-                </div>
-                <div class="back" style="background-color: var(--primary-color); color: white; justify-content: center; align-items: center;">
-                    <div style="font-size: 40px; margin-bottom: 10px;">☸</div>
-                    <h2 style="color: var(--accent-color);">พระประโทณเจดีย์</h2>
-                    <p style="text-align: center; color: #eee; font-size: 14px; text-indent: 0;">จังหวัดนครปฐม</p>
-                    <br>
-                    <p style="text-align: center; color: #fff; font-size: 16px; text-indent: 0;">"เย ธมฺมา เหตุปฺปภวา ฯ"<br>ธรรมเหล่าใดเกิดแต่เหตุ พระตถาคตทรงแสดงเหตุแห่งธรรมเหล่านั้น</p>
-                    <br>
-                    <p style="text-align: center; font-size: 12px; color: #ffecd1; text-indent: 0;">จัดทำโดย มนตรี แซ่โง้ว (ต้น กิตติวังโส)</p>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="controls">
-
-<button onclick="nextPage()">หน้าถัดไป</button>
-
-        <button onclick="prevPage()">หน้าก่อน</button>
-       
-        <button onclick="ipadPage()">AI Review</button>
-    </div>
-
-    <script>
-        let currentLocation = 1;
-        let numOfPages = 8; 
-        let maxLocation = numOfPages + 1;
-        function ipadPage(){window.location.href="https://g.co/gemini/share/19381928376e";}
-
-        function nextPage() {
-            if (currentLocation < maxLocation) {
-                let page = document.getElementById("p" + currentLocation);
-                if(page) {
-                    page.classList.add("flipped");
-                    page.style.zIndex = currentLocation;
-                }
-                currentLocation++;
-            }
-        }
-
-        function prevPage() {
-            if (currentLocation > 1) {
-                currentLocation--;
-                let page = document.getElementById("p" + currentLocation);
-                if(page) {
-                    page.classList.remove("flipped");
-                    setTimeout(() => {
-                        page.style.zIndex = numOfPages - currentLocation + 10; 
-                    }, 300); 
-                }
-            }
-        }
-        
-        document.querySelectorAll('.page').forEach((page, index) => {
-            page.addEventListener('click', () => {
-                if (!page.classList.contains('flipped')) {
-                    if (index + 1 === currentLocation) {
-                        nextPage();
-                    }
-                } else {
-                    if (index + 2 === currentLocation) {
-                        prevPage();
-                    }
-                }
-            });
-        });
-    </script>
 </body>
 </html>
